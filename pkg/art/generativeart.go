@@ -36,7 +36,6 @@ func RandomShapes() string {
 		{0x35, 0x3A, 0x57, 0xFF},
 	})
 	c.Draw(arts.NewRandomShape(150))
-	c.ToPNG("randomshape.png")
 	return dir.ToPng(c.Img())
 }
 
@@ -69,7 +68,7 @@ func CircleGrid() string {
 		{0xFF, 0xFF, 0xFF, 0xFF},
 	}
 	c := generativeart.NewCanva(500, 500)
-	c.SetBackground(color.RGBA{0xDF, 0xEB, 0xF5, 0xFF})
+	c.SetBackground(color.RGBA{R: 0xDF, G: 0xEB, B: 0xF5, A: 0xFF})
 	c.FillBackground()
 	c.SetColorSchema(colors)
 	c.SetLineWidth(2.0)
@@ -88,7 +87,7 @@ func CircleComposesCircle() string {
 		{0x43, 0xBC, 0xCD, 0xFF},
 	}
 	c := generativeart.NewCanva(500, 500)
-	c.SetBackground(color.RGBA{8, 10, 20, 255})
+	c.SetBackground(color.RGBA{R: 8, G: 10, B: 20, A: 255})
 	c.FillBackground()
 	c.SetColorSchema(colors)
 	c.Draw(arts.NewCircleLoop2(7))
@@ -143,11 +142,10 @@ func ContourLine() string {
 		{0xFF, 0xC3, 0x0F, 0xFF},
 	}
 	c := generativeart.NewCanva(1600, 1600)
-	c.SetBackground(color.RGBA{0x1a, 0x06, 0x33, 0xFF})
+	c.SetBackground(color.RGBA{R: 0x1a, G: 0x06, B: 0x33, A: 0xFF})
 	c.FillBackground()
 	c.SetColorSchema(colors)
 	c.Draw(arts.NewContourLine(500))
-	// c.ToPNG("contourline.png")
 	return dir.ToPng(c.Img())
 }
 
@@ -161,18 +159,17 @@ func NoiseLine() string {
 		{0xD5, 0x60, 0x62, 0xFF},
 	}
 	c := generativeart.NewCanva(1000, 1000)
-	c.SetBackground(color.RGBA{0xF0, 0xFE, 0xFF, 0xFF})
+	c.SetBackground(color.RGBA{R: 0xF0, G: 0xFE, B: 0xFF, A: 0xFF})
 	c.FillBackground()
 	c.SetColorSchema(colors)
 	c.Draw(arts.NewNoiseLine(1000))
-	// c.ToPNG("noiseline.png")
 	return dir.ToPng(c.Img())
 }
 
 func DotLine() string {
 	rand.Seed(time.Now().Unix())
 	c := generativeart.NewCanva(2080, 2080)
-	c.SetBackground(color.RGBA{230, 230, 230, 255})
+	c.SetBackground(color.RGBA{R: 230, G: 230, B: 230, A: 255})
 	c.SetLineWidth(10)
 	c.SetIterations(15000)
 	c.SetColorSchema(common.DarkPink)
@@ -219,10 +216,10 @@ func CircleLoop() string {
 
 func cmap(r, m1, m2 float64) color.RGBA {
 	rgb := color.RGBA{
-		uint8(common.Constrain(m1*200*r, 0, 255)),
-		uint8(common.Constrain(r*200, 0, 255)),
-		uint8(common.Constrain(m2*255*r, 70, 255)),
-		255,
+		R: uint8(common.Constrain(m1*200*r, 0, 255)),
+		G: uint8(common.Constrain(r*200, 0, 255)),
+		B: uint8(common.Constrain(m2*255*r, 70, 255)),
+		A: 255,
 	}
 	return rgb
 }
@@ -260,7 +257,7 @@ func PerlinPerls() string {
 	return dir.ToPng(c.Img())
 }
 
-func ColorCanva() string {
+func ColorCanve() string {
 	rand.Seed(time.Now().Unix())
 	colors := []color.RGBA{
 		{0xF9, 0xC8, 0x0E, 0xFF},

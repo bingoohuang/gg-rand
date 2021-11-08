@@ -7,13 +7,14 @@ import (
 	"strings"
 	"text/tabwriter"
 
+	"github.com/bingoohuang/gg-rand/pkg/art"
+
 	"github.com/bingoohuang/gg-rand/pkg/unsplash"
 	"github.com/bingoohuang/gg/pkg/chinaid"
 	"github.com/bingoohuang/gg/pkg/uid"
 	"github.com/google/uuid"
 
 	"github.com/Pallinder/go-randomdata"
-	"github.com/bingoohuang/gg-rand/pkg/art"
 	"github.com/bingoohuang/gg-rand/pkg/str"
 	"github.com/bingoohuang/gg/pkg/randx"
 	"github.com/bingoohuang/jj"
@@ -25,9 +26,8 @@ func main() {
 	w := new(tabwriter.Writer)
 	w.Init(os.Stdout, 0, 8, 0, '\t', 0)
 	p := func(name, value string) {
-		fmt.Fprintf(w, "%s\t: %s\n", name, value)
+		_, _ = fmt.Fprintf(w, "%s\t: %s\n", name, value)
 	}
-	defer w.Flush()
 
 	p("SillyName", randomdata.SillyName())
 	p("Email", randomdata.Email())
@@ -58,52 +58,45 @@ func main() {
 	p("银行卡", chinaid.BankNo())
 	p("日期", chinaid.RandDate().Format("2006年01月02日"))
 
-	w.Flush()
+	_ = w.Flush()
 	arts(p)
 	p("Unsplash", unsplash.Random())
+	_ = w.Flush()
+}
+
+type artMap struct {
+	Name string
+	Fn   func() string
+}
+
+var artMaps = []artMap{
+	{Name: "Junas", Fn: art.Junas},
+	{Name: "Random Shapes", Fn: art.RandomShapes},
+	{Name: "Color Circle2", Fn: art.ColorCircle2},
+	{Name: "Circle Grid", Fn: art.CircleGrid},
+	{Name: "Circle Composes Circle", Fn: art.CircleComposesCircle},
+	{Name: "Pixel Hole", Fn: art.PixelHole},
+	{Name: "Dots Wave", Fn: art.DotsWave},
+	{Name: "Contour Line", Fn: art.ContourLine},
+	{Name: "Noise Line", Fn: art.NoiseLine},
+	{Name: "Dot Line", Fn: art.DotLine},
+	{Name: "Ocean Fish", Fn: art.OceanFish},
+	{Name: "Circle Loop", Fn: art.CircleLoop},
+	{Name: "Domain Warp", Fn: art.DomainWarp},
+	{Name: "Circle Noise", Fn: art.CircleNoise},
+	{Name: "Perlin Perls", Fn: art.PerlinPerls},
+	{Name: "Color Canve", Fn: art.ColorCanve},
+	{Name: "Julia Set", Fn: art.JuliaSet},
+	{Name: "Black Hole", Fn: art.BlackHole},
+	{Name: "Silk Sky", Fn: art.SilkSky},
+	{Name: "Circle Move", Fn: art.CircleMove},
+	{Name: "Random Circle", Fn: art.RandomCircle},
 }
 
 func arts(p func(name string, value string)) {
-	switch randx.IntN(19) {
-	case 0:
-		p("Generative art Junas", art.Junas())
-	case 1:
-		p("Generative art Random Shapes", art.RandomShapes())
-	case 2:
-		p("Generative art Color Circle2", art.ColorCircle2())
-	case 3:
-		p("Generative art Circle Grid", art.CircleGrid())
-	case 4:
-		p("Generative art Circle Composes Circle", art.CircleComposesCircle())
-	case 5:
-		p("Generative art Pixel Hole", art.PixelHole())
-	case 6:
-		p("Generative art Dots Wave", art.DotsWave())
-	case 7:
-		p("Generative art Contour Line", art.ContourLine())
-	case 8:
-		p("Generative art Dot Line", art.DotLine())
-	case 9:
-		p("Generative art Ocean Fish", art.OceanFish())
-	case 10:
-		p("Generative art Circle Loop", art.CircleLoop())
-	case 11:
-		p("Generative art Circle Noise", art.CircleNoise())
-	case 12:
-		p("Generative art Perlin Perls", art.PerlinPerls())
-	case 13:
-		p("Generative art Canva", art.ColorCanva())
-	case 14:
-		p("Generative art Julia Set", art.JuliaSet())
-	case 15:
-		p("Generative art Black Hole", art.BlackHole())
-	case 16:
-		p("Generative art Silk Sky", art.SilkSky())
-	case 17:
-		p("Generative art Circle Move", art.CircleMove())
-	case 18:
-		p("Generative art Random Circle", art.RandomCircle())
-	}
+	i := randx.IntN(len(artMaps))
+	m := artMaps[i]
+	p("Generative art "+m.Name, m.Fn())
 }
 
 func printInspect(id uid.KSUID) string {
