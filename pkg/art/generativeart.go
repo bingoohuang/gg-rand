@@ -20,7 +20,7 @@ func Junas() string {
 	c.SetForeground(common.LightPink)
 	c.Draw(arts.NewJanus(10, 0.2))
 	// c.ToPNG("janus.png")
-	return dir.ToPng(c.Img())
+	return dir.ToPng(c.Img(), false)
 }
 
 func RandomShapes() string {
@@ -36,7 +36,7 @@ func RandomShapes() string {
 		{0x35, 0x3A, 0x57, 0xFF},
 	})
 	c.Draw(arts.NewRandomShape(150))
-	return dir.ToPng(c.Img())
+	return dir.ToPng(c.Img(), false)
 }
 
 func ColorCircle2() string {
@@ -54,7 +54,7 @@ func ColorCircle2() string {
 	c.SetColorSchema(colors)
 	c.Draw(arts.NewColorCircle2(30))
 	// c.ToPNG("colorcircle2.png")
-	return dir.ToPng(c.Img())
+	return dir.ToPng(c.Img(), false)
 }
 
 func CircleGrid() string {
@@ -74,7 +74,7 @@ func CircleGrid() string {
 	c.SetLineWidth(2.0)
 	c.Draw(arts.NewCircleGrid(4, 6))
 	// c.ToPNG("circlegrid.png")
-	return dir.ToPng(c.Img())
+	return dir.ToPng(c.Img(), false)
 }
 
 func CircleComposesCircle() string {
@@ -92,7 +92,7 @@ func CircleComposesCircle() string {
 	c.SetColorSchema(colors)
 	c.Draw(arts.NewCircleLoop2(7))
 	// c.ToPNG("colorloop2.png")
-	return dir.ToPng(c.Img())
+	return dir.ToPng(c.Img(), false)
 }
 
 func PixelHole() string {
@@ -111,7 +111,7 @@ func PixelHole() string {
 	c.SetIterations(1200)
 	c.Draw(arts.NewPixelHole(60))
 	// c.ToPNG("pixelhole.png")
-	return dir.ToPng(c.Img())
+	return dir.ToPng(c.Img(), false)
 }
 
 func DotsWave() string {
@@ -129,7 +129,7 @@ func DotsWave() string {
 	c.SetColorSchema(colors)
 	c.Draw(arts.NewDotsWave(300))
 	// c.ToPNG("dotswave.png")
-	return dir.ToPng(c.Img())
+	return dir.ToPng(c.Img(), false)
 }
 
 func ContourLine() string {
@@ -146,7 +146,7 @@ func ContourLine() string {
 	c.FillBackground()
 	c.SetColorSchema(colors)
 	c.Draw(arts.NewContourLine(500))
-	return dir.ToPng(c.Img())
+	return dir.ToPng(c.Img(), false)
 }
 
 func NoiseLine() string {
@@ -163,7 +163,7 @@ func NoiseLine() string {
 	c.FillBackground()
 	c.SetColorSchema(colors)
 	c.Draw(arts.NewNoiseLine(1000))
-	return dir.ToPng(c.Img())
+	return dir.ToPng(c.Img(), false)
 }
 
 func DotLine() string {
@@ -176,7 +176,7 @@ func DotLine() string {
 	c.FillBackground()
 	c.Draw(arts.NewDotLine(100, 20, 50, false))
 	// c.ToPNG("dotline.png")
-	return dir.ToPng(c.Img())
+	return dir.ToPng(c.Img(), false)
 }
 
 func OceanFish() string {
@@ -198,7 +198,7 @@ func OceanFish() string {
 	c := generativeart.NewCanva(500, 500)
 	c.SetColorSchema(colors)
 	c.Draw(arts.NewOceanFish(100, 8))
-	return dir.ToPng(c.Img())
+	return dir.ToPng(c.Img(), false)
 }
 
 func CircleLoop() string {
@@ -211,7 +211,7 @@ func CircleLoop() string {
 	c.SetIterations(1000)
 	c.FillBackground()
 	c.Draw(arts.NewCircleLoop(100))
-	return dir.ToPng(c.Img())
+	return dir.ToPng(c.Img(), false)
 }
 
 func cmap(r, m1, m2 float64) color.RGBA {
@@ -230,7 +230,7 @@ func DomainWarp() string {
 	c.SetBackground(common.Black)
 	c.FillBackground()
 	c.Draw(arts.NewDomainWrap(0.01, 4, 4, 20, cmap))
-	return dir.ToPng(c.Img())
+	return dir.ToPng(c.Img(), false)
 }
 
 func CircleNoise() string {
@@ -242,7 +242,7 @@ func CircleNoise() string {
 	c.FillBackground()
 	c.SetIterations(400)
 	c.Draw(arts.NewCircleNoise(2000, 60, 80))
-	return dir.ToPng(c.Img())
+	return dir.ToPng(c.Img(), false)
 }
 
 func PerlinPerls() string {
@@ -254,7 +254,7 @@ func PerlinPerls() string {
 	c.FillBackground()
 	c.SetIterations(200)
 	c.Draw(arts.NewPerlinPerls(10, 200, 40, 80))
-	return dir.ToPng(c.Img())
+	return dir.ToPng(c.Img(), false)
 }
 
 func ColorCanve() string {
@@ -272,7 +272,7 @@ func ColorCanve() string {
 	c.SetLineWidth(8)
 	c.SetColorSchema(colors)
 	c.Draw(arts.NewColorCanve(5))
-	return dir.ToPng(c.Img())
+	return dir.ToPng(c.Img(), false)
 }
 
 func julia1(z complex128) complex128 {
@@ -290,7 +290,7 @@ func JuliaSet() string {
 	c.SetColorSchema(common.Citrus)
 	c.FillBackground()
 	c.Draw(arts.NewJulia(julia1, 40, 1.5, 1.5))
-	return dir.ToPng(c.Img())
+	return dir.ToPng(c.Img(), false)
 }
 
 func BlackHole() string {
@@ -301,7 +301,7 @@ func BlackHole() string {
 	c.SetLineWidth(1.0)
 	c.SetLineColor(common.Tomato)
 	c.Draw(arts.NewBlackHole(200, 400, 0.01))
-	return dir.ToPng(c.Img())
+	return dir.ToPng(c.Img(), false)
 }
 
 func SilkSky() string {
@@ -309,7 +309,7 @@ func SilkSky() string {
 	c := generativeart.NewCanva(600, 600)
 	c.SetAlpha(10)
 	c.Draw(arts.NewSilkSky(15, 5))
-	return dir.ToPng(c.Img())
+	return dir.ToPng(c.Img(), false)
 }
 
 func CircleMove() string {
@@ -318,7 +318,7 @@ func CircleMove() string {
 	c.SetBackground(common.White)
 	c.FillBackground()
 	c.Draw(arts.NewCircleMove(1000))
-	return dir.ToPng(c.Img())
+	return dir.ToPng(c.Img(), false)
 }
 
 func RandomCircle() string {
@@ -336,5 +336,5 @@ func RandomCircle() string {
 	c.SetIterations(4)
 	c.FillBackground()
 	c.Draw(arts.NewRandCicle(30, 80, 0.2, 2, 10, 30, true))
-	return dir.ToPng(c.Img())
+	return dir.ToPng(c.Img(), false)
 }

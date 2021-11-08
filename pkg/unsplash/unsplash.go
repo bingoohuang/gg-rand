@@ -14,7 +14,7 @@ func Random() string {
 		panic(err)
 	}
 
-	return dir.ToPng(img)
+	return dir.ToPng(img, false)
 }
 
 // RandomImage https://preslav.me/2021/01/11/an-easy-way-to-get-a-random-stream-of-images-in-your-golang-app/.

@@ -33,3 +33,9 @@ UUID            : 2d0c64c6-3f8c-11ec-be1e-acde48001122
 Generative art Canva    : /var/folders/8h/9150s4l16q5bbjq1j6cllvch0000gp/T/1161453087/rand3133874368.png
 Unsplash                : /var/folders/8h/9150s4l16q5bbjq1j6cllvch0000gp/T/1161453087/rand691563348.png
 ```
+
+## captcha
+
+`$ gg-rand captcha 10` to generate 10 captcha images.
+
+![image](https://user-images.githubusercontent.com/1940588/140700928-1fd794a7-21b2-4bda-81c0-b705bd632f88.png)
