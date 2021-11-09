@@ -1,4 +1,4 @@
-package dir
+package img
 
 import (
 	"bytes"
@@ -6,21 +6,25 @@ import (
 	"image"
 	"image/png"
 	"io/ioutil"
+	"os"
+	"path/filepath"
+
+	"github.com/bingoohuang/gg/pkg/uid"
 )
 
-var TempDir string
+var Dir string
 
 func init() {
 	d, err := ioutil.TempDir("", "")
 	if err != nil {
 		panic(err)
 	}
-	TempDir = d
+	Dir = d
 }
 
 // ToPng saves the image to local with PNG format.
 func ToPng(img image.Image, appendBase64 bool) string {
-	f, err := ioutil.TempFile(TempDir, "rand*.png")
+	f, err := os.OpenFile(filepath.Join(Dir, uid.New().String()+".png"), os.O_RDWR|os.O_CREATE, 0o755)
 	if err != nil {
 		return ""
 	}

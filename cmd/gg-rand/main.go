@@ -7,12 +7,11 @@ import (
 	"strings"
 	"text/tabwriter"
 
-	"github.com/bingoohuang/gg-rand/pkg/c7a"
-	"github.com/bingoohuang/gg-rand/pkg/dir"
-	"github.com/bingoohuang/gg/pkg/ss"
+	"github.com/bingoohuang/gg-rand/pkg/img"
+	"github.com/bingoohuang/gg/pkg/fla9"
 
 	"github.com/bingoohuang/gg-rand/pkg/art"
-
+	"github.com/bingoohuang/gg-rand/pkg/c7a"
 	"github.com/bingoohuang/gg-rand/pkg/unsplash"
 	"github.com/bingoohuang/gg/pkg/chinaid"
 	"github.com/bingoohuang/gg/pkg/uid"
@@ -27,38 +26,10 @@ import (
 )
 
 func main() {
-	tag := ""
-	num := 0
-	if len(os.Args) >= 2 {
-		tag = os.Args[1]
-	}
-	if len(os.Args) >= 3 {
-		num = ss.ParseInt(os.Args[2])
-	}
-
 	w := new(tabwriter.Writer)
 	w.Init(os.Stdout, 0, 8, 0, '\t', 0)
 
-	okFn := func(string) bool { return true }
-	if tag != "" {
-		tag = strings.ToUpper(tag)
-		okFn = func(name string) bool {
-			return strings.Contains(strings.ToUpper(name), tag)
-		}
-	}
-	if num <= 0 {
-		num = 1
-	}
-
-	p := func(name string, f func() string) {
-		if !okFn(name) {
-			return
-		}
-
-		for i := 0; i < num; i++ {
-			_, _ = fmt.Fprintf(w, "%s\t: %s\n", name, f())
-		}
-	}
+	p := createPrinter(w)
 
 	p("SillyName", randomdata.SillyName)
 	p("Email", randomdata.Email)
@@ -75,13 +46,12 @@ func main() {
 
 	p("Captcha", func() string {
 		cp := c7a.NewCaptcha(150, 40, 5)
-		code, img := cp.OutPut()
-		return code + " " + dir.ToPng(img, false)
+		code, pImg := cp.OutPut()
+		return code + " " + img.ToPng(pImg, false)
 	})
 
 	p("KSUID", func() string { ksuid, _ := uid.NewRandom(); return ksuid.String() + " " + printInspect(ksuid) })
-	nid, _ := uuid.NewUUID()
-	p("UUID", nid.String)
+	p("UUID", func() string { return uuid.New().String() })
 	p("姓名", chinaid.Name)
 	p("性别", chinaid.Sex)
 	p("地址", chinaid.Address)
@@ -97,6 +67,58 @@ func main() {
 	arts(p)
 	p("Unsplash", unsplash.Random)
 	_ = w.Flush()
+}
+
+func createPrinter(w *tabwriter.Writer) func(name string, f func() string) {
+	okFn := func(string) bool { return true }
+	if tag != "" {
+		tag = strings.ToUpper(tag)
+		okFn = func(name string) bool {
+			return strings.Contains(strings.ToUpper(name), tag)
+		}
+	}
+
+	return func(name string, f func() string) {
+		if !okFn(name) {
+			return
+		}
+
+		for i := 0; i < num; i++ {
+			_, _ = fmt.Fprintf(w, "%s\t: %s\n", name, f())
+		}
+	}
+}
+
+func arts(p1 func(name string, f func() string)) {
+	p1("Generative art", func() string {
+		return artMaps[randx.IntN(len(artMaps))].Fn()
+	})
+}
+
+var (
+	tag string
+	num int
+	dir string
+)
+
+const usage = `
+  -dir string   in which dir to generate random files. (default temp dir)
+  -n   int      how many random values to generate. (default 1)
+  -tag string   which random type to generate, like uuid, art, id, email and etc. (default all types)
+`
+
+func init() {
+	fla9.Usage = func() {
+		fmt.Fprintf(os.Stderr, "Usage of %s:%s", os.Args[0], usage)
+	}
+	fla9.StringVar(&dir, "dir", "", "")
+	fla9.StringVar(&tag, "tag", "", "")
+	fla9.IntVar(&num, "n", 1, "")
+	fla9.Parse()
+
+	if dir != "" {
+		img.Dir = dir
+	}
 }
 
 type artMap struct {
@@ -126,12 +148,6 @@ var artMaps = []artMap{
 	{Name: "Silk Sky", Fn: art.SilkSky},
 	{Name: "Circle Move", Fn: art.CircleMove},
 	{Name: "Random Circle", Fn: art.RandomCircle},
-}
-
-func arts(p1 func(name string, f func() string)) {
-	i := randx.IntN(len(artMaps))
-	m := artMaps[i]
-	p1("Generative art "+m.Name, m.Fn)
 }
 
 func printInspect(id uid.KSUID) string {

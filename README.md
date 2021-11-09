@@ -5,6 +5,16 @@ generate random data like name, email, uuid, address, images and etc.
 1. build and install: `make`
 2. run: `gg-rand`
 
+usage:
+
+```sh
+$ gg-rand -h
+Usage of gg-rand:
+  -dir string   in which dir to generate random files. (default temp dir)
+  -n   int      how many random values to generate. (default 1)
+  -tag string   which random type to generate, like uuid, art, id, email and etc. (default all types)
+```
+
 ```sh
 $ gg-rand
 SillyName       : Knavesaber
@@ -37,6 +47,6 @@ Unsplash                : /var/folders/8h/9150s4l16q5bbjq1j6cllvch0000gp/T/11614
 
 ## captcha
 
-`$ gg-rand captcha 10` to generate 10 captcha images.
+`$ gg-rand -tag captcha -n 10` to generate 10 captcha images.
 
 ![image](https://user-images.githubusercontent.com/1940588/140700928-1fd794a7-21b2-4bda-81c0-b705bd632f88.png)
