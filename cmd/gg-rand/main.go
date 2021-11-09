@@ -93,9 +93,10 @@ func createPrinter(w *tabwriter.Writer) func(name string, f func() string) {
 
 func arts(p1 func(name string, f func() string), flusher rotate.Flusher) {
 	p1("Generative art", func() string {
-		result := artMaps[randx.IntN(len(artMaps))].Fn()
+		item := artMaps[randx.IntN(len(artMaps))]
+		result := item.Fn()
 		flusher.Flush()
-		return result
+		return item.Name + ": " + result
 	})
 }
 
