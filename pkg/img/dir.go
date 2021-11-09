@@ -6,6 +6,7 @@ import (
 	"image"
 	"image/png"
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
 
@@ -24,13 +25,16 @@ func init() {
 
 // ToPng saves the image to local with PNG format.
 func ToPng(img image.Image, appendBase64 bool) string {
-	f, err := os.OpenFile(filepath.Join(Dir, uid.New().String()+".png"), os.O_RDWR|os.O_CREATE, 0o755)
+	file := filepath.Join(Dir, uid.New().String()+".png")
+	f, err := os.OpenFile(file, os.O_RDWR|os.O_CREATE, 0o755)
 	if err != nil {
+		log.Printf("failed to open file %s, error: %v", file, err)
 		return ""
 	}
 	defer f.Close()
 
 	if err := png.Encode(f, img); err != nil {
+		log.Printf("failed to png.Encode, error: %v", err)
 		return ""
 	}
 

@@ -7,6 +7,8 @@ import (
 	"strings"
 	"text/tabwriter"
 
+	"github.com/bingoohuang/gg/pkg/rotate"
+
 	"github.com/bingoohuang/gg-rand/pkg/img"
 	"github.com/bingoohuang/gg/pkg/fla9"
 
@@ -64,7 +66,7 @@ func main() {
 	p("日期", func() string { return chinaid.RandDate().Format("2006年01月02日") })
 
 	_ = w.Flush()
-	arts(p)
+	arts(p, w)
 	p("Unsplash", unsplash.Random)
 	_ = w.Flush()
 }
@@ -89,9 +91,11 @@ func createPrinter(w *tabwriter.Writer) func(name string, f func() string) {
 	}
 }
 
-func arts(p1 func(name string, f func() string)) {
+func arts(p1 func(name string, f func() string), flusher rotate.Flusher) {
 	p1("Generative art", func() string {
-		return artMaps[randx.IntN(len(artMaps))].Fn()
+		result := artMaps[randx.IntN(len(artMaps))].Fn()
+		flusher.Flush()
+		return result
 	})
 }
 
