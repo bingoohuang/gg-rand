@@ -1,11 +1,14 @@
 package main
 
 import (
+	"encoding/base64"
 	"encoding/hex"
 	"fmt"
+	"math/rand"
 	"os"
 	"strings"
 	"text/tabwriter"
+	"time"
 
 	"github.com/bingoohuang/gg/pkg/rotate"
 
@@ -33,6 +36,12 @@ func main() {
 
 	p := createPrinter(w)
 
+	rand.Seed(time.Now().UnixNano())
+	p("Base64", func() string {
+		token := make([]byte, argLen)
+		rand.Read(token)
+		return base64.StdEncoding.EncodeToString(token)
+	})
 	p("SillyName", randomdata.SillyName)
 	p("Email", randomdata.Email)
 	p("IP v4", randomdata.IpV4Address)
@@ -101,14 +110,16 @@ func arts(p1 func(name string, f func() string), flusher rotate.Flusher) {
 }
 
 var (
-	tag string
-	num int
-	dir string
+	tag    string
+	num    int
+	argLen int
+	dir    string
 )
 
 const usage = `
   -dir string   in which dir to generate random files. (default temp dir)
   -n   int      how many random values to generate. (default 1)
+  -len int      length.
   -tag string   which random type to generate, like uuid, art, id, email and etc. (default all types)
 `
 
@@ -119,6 +130,7 @@ func init() {
 	fla9.StringVar(&dir, "dir", "", "")
 	fla9.StringVar(&tag, "tag", "", "")
 	fla9.IntVar(&num, "n", 1, "")
+	fla9.IntVar(&argLen, "len", 100, "")
 	fla9.Parse()
 
 	if dir != "" {
