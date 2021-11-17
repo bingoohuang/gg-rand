@@ -24,7 +24,6 @@ import (
 
 	"github.com/Pallinder/go-randomdata"
 	"github.com/bingoohuang/gg-rand/pkg/str"
-	"github.com/bingoohuang/gg/pkg/randx"
 	"github.com/bingoohuang/jj"
 	"github.com/brianvoe/gofakeit/v6"
 	pwe "github.com/kuking/go-pwentropy"
@@ -34,75 +33,92 @@ func main() {
 	w := new(tabwriter.Writer)
 	w.Init(os.Stdout, 0, 8, 0, '\t', 0)
 
-	p := createPrinter(w)
+	p, isHelpTag := createPrinter(w)
 
 	rand.Seed(time.Now().UnixNano())
-	p("Base64", func() string {
+	p("Base64", func(int) string {
 		token := make([]byte, argLen)
 		rand.Read(token)
 		return base64.StdEncoding.EncodeToString(token)
 	})
-	p("SillyName", randomdata.SillyName)
-	p("Email", randomdata.Email)
-	p("IP v4", randomdata.IpV4Address)
-	p("IP v6", randomdata.IpV6Address)
-	p("UserAgent", randomdata.UserAgentString)
-	p("Password", func() string { return pwe.PwGen(pwe.FormatComplex, pwe.Strength96) })
-	p("Password Easy", func() string { return pwe.PwGen(pwe.FormatEasy, pwe.Strength96) })
-	p("Numbers", func() string { return gofakeit.DigitN(60) })
-	p("Letters", func() string { return gofakeit.LetterN(60) })
+	p("SillyName", wrap(randomdata.SillyName))
+	p("Email", wrap(randomdata.Email))
+	p("IP v4", wrap(randomdata.IpV4Address))
+	p("IP v6", wrap(randomdata.IpV6Address))
+	p("UserAgent", wrap(randomdata.UserAgentString))
+	p("Password", func(int) string { return pwe.PwGen(pwe.FormatComplex, pwe.Strength96) })
+	p("Password Easy", func(int) string { return pwe.PwGen(pwe.FormatEasy, pwe.Strength96) })
+	p("Numbers", func(int) string { return gofakeit.DigitN(60) })
+	p("Letters", func(int) string { return gofakeit.LetterN(60) })
 	jj.DefaultRandOptions.Pretty = false
-	p("JSON", func() string { return string(jj.Rand()) })
-	p("String", func() string { return str.RandStr(60) })
+	p("JSON", func(int) string { return string(jj.Rand()) })
+	p("String", func(int) string { return str.RandStr(60) })
 
-	p("Captcha", func() string {
+	p("Captcha", func(int) string {
 		cp := c7a.NewCaptcha(150, 40, 5)
 		code, pImg := cp.OutPut()
 		return code + " " + img.ToPng(pImg, false)
 	})
 
-	p("KSUID", func() string { ksuid, _ := uid.NewRandom(); return ksuid.String() + " " + printInspect(ksuid) })
-	p("UUID", func() string { return uuid.New().String() })
-	p("姓名", chinaid.Name)
-	p("性别", chinaid.Sex)
-	p("地址", chinaid.Address)
-	p("手机", chinaid.Mobile)
-	p("身份证", chinaid.ChinaID)
-	p("有效期", chinaid.ValidPeriod)
-	p("发证机关", chinaid.IssueOrg)
-	p("邮箱", chinaid.Email)
-	p("银行卡", chinaid.BankNo)
-	p("日期", func() string { return chinaid.RandDate().Format("2006年01月02日") })
+	p("KSUID", func(int) string { ksuid, _ := uid.NewRandom(); return ksuid.String() + " " + printInspect(ksuid) })
+	p("UUID", func(int) string { return uuid.New().String() })
+	p("姓名", wrap(chinaid.Name))
+	p("性别", wrap(chinaid.Sex))
+	p("地址", wrap(chinaid.Address))
+	p("手机", wrap(chinaid.Mobile))
+	p("身份证", wrap(chinaid.ChinaID))
+	p("有效期", wrap(chinaid.ValidPeriod))
+	p("发证机关", wrap(chinaid.IssueOrg))
+	p("邮箱", wrap(chinaid.Email))
+	p("银行卡", wrap(chinaid.BankNo))
+	p("日期", func(int) string { return chinaid.RandDate().Format("2006年01月02日") })
 
 	_ = w.Flush()
 	arts(p, w)
 	p("Unsplash", unsplash.Random)
+	p("Image", img.RandomImage)
+
 	_ = w.Flush()
+	if isHelpTag {
+		fmt.Println()
+	}
 }
 
-func createPrinter(w *tabwriter.Writer) func(name string, f func() string) {
+func wrap(f func() string) func(int) string { return func(int) string { return f() } }
+
+func createPrinter(w *tabwriter.Writer) (func(name string, f func(int) string), bool) {
+	tag = strings.ToUpper(tag)
+
+	if tag == "HELP" {
+		fmt.Print("Available tags:")
+		firstTag := true
+		return func(name string, f func(int) string) {
+			if firstTag {
+				firstTag = false
+				fmt.Print(" " + name)
+			} else {
+				fmt.Print(", " + name)
+			}
+		}, true
+	}
+
 	okFn := func(string) bool { return true }
 	if tag != "" {
-		tag = strings.ToUpper(tag)
-		okFn = func(name string) bool {
-			return strings.Contains(strings.ToUpper(name), tag)
-		}
+		okFn = func(name string) bool { return strings.Contains(strings.ToUpper(name), tag) }
 	}
 
-	return func(name string, f func() string) {
-		if !okFn(name) {
-			return
+	return func(name string, f func(int) string) {
+		if okFn(name) {
+			for i := 0; i < num; i++ {
+				_, _ = fmt.Fprintf(w, "%s\t: %s\n", name, f(i))
+			}
 		}
-
-		for i := 0; i < num; i++ {
-			_, _ = fmt.Fprintf(w, "%s\t: %s\n", name, f())
-		}
-	}
+	}, false
 }
 
-func arts(p1 func(name string, f func() string), flusher rotate.Flusher) {
-	p1("Generative art", func() string {
-		item := artMaps[randx.IntN(len(artMaps))]
+func arts(p1 func(name string, f func(int) string), flusher rotate.Flusher) {
+	p1("Generative art", func(i int) string {
+		item := artMaps[i%(len(artMaps))]
 		result := item.Fn()
 		flusher.Flush()
 		return item.Name + ": " + result
@@ -120,7 +136,7 @@ const usage = `
   -dir string   in which dir to generate random files. (default temp dir)
   -n   int      how many random values to generate. (default 1)
   -len int      length.
-  -tag string   which random type to generate, like uuid, art, id, email and etc. (default all types)
+  -tag string   which type to generate, like uuid, art, id, email and etc. (empty for all, help to print all available full tags)
 `
 
 func init() {

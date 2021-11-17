@@ -50,3 +50,7 @@ Unsplash                : /var/folders/8h/9150s4l16q5bbjq1j6cllvch0000gp/T/11614
 `$ gg-rand -tag captcha -n 10` to generate 10 captcha images.
 
 ![image](https://user-images.githubusercontent.com/1940588/140700928-1fd794a7-21b2-4bda-81c0-b705bd632f88.png)
+
+## images
+
+`$ GG_IMG_SIZE=640X320 GG_IMG_FORMAT=JPG GG_IMG_FAST=N GG_IMG_FILE_SIZE=2MiB  gg-rand -tag image -n 10`

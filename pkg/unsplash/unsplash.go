@@ -8,7 +8,7 @@ import (
 	"github.com/bingoohuang/gg-rand/pkg/img"
 )
 
-func Random() string {
+func Random(int) string {
 	pImg, err := RandomImage(1000, 1000)
 	if err != nil {
 		panic(err)
