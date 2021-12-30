@@ -10,6 +10,13 @@ import (
 	"text/tabwriter"
 	"time"
 
+	"github.com/aidarkhanov/nanoid/v2"
+	"github.com/bingoohuang/gg-rand/pkg/gist"
+	"github.com/bwmarrin/snowflake"
+	oid "github.com/coolbed/mgo-oid"
+	gonanoid "github.com/matoous/go-nanoid/v2"
+	"github.com/rs/xid"
+
 	"github.com/bingoohuang/gg/pkg/rotate"
 
 	"github.com/bingoohuang/gg-rand/pkg/img"
@@ -36,11 +43,10 @@ func main() {
 	p, isHelpTag := createPrinter(w)
 
 	rand.Seed(time.Now().UnixNano())
-	p("Base64", func(int) string {
-		token := make([]byte, argLen)
-		rand.Read(token)
-		return base64.StdEncoding.EncodeToString(token)
-	})
+	p("Base64Std", func(int) string { return base64.StdEncoding.EncodeToString(randToken()) })
+	p("Base64RawStd", func(int) string { return base64.RawStdEncoding.EncodeToString(randToken()) })
+	p("Base64RawURL", func(int) string { return base64.RawURLEncoding.EncodeToString(randToken()) })
+	p("Base64URL", func(int) string { return base64.URLEncoding.EncodeToString(randToken()) })
 	p("SillyName", wrap(randomdata.SillyName))
 	p("Email", wrap(randomdata.Email))
 	p("IP v4", wrap(randomdata.IpV4Address))
@@ -60,8 +66,25 @@ func main() {
 		return code + " " + img.ToPng(pImg, false)
 	})
 
-	p("KSUID", func(int) string { ksuid, _ := uid.NewRandom(); return ksuid.String() + " " + printInspect(ksuid) })
+	p("KSUID", func(int) string { v, _ := uid.NewRandom(); return v.String() + " " + printInspect(v) })
 	p("UUID", func(int) string { return uuid.New().String() })
+	p("Aidarkhanov Nano ID", func(int) string { return PickStr(nanoid.New()) }) // "i25_rX9zwDdDn7Sg-ZoaH"
+	p("Matoous Nano ID", func(int) string { return PickStr(gonanoid.New()) })   // "i25_rX9zwDdDn7Sg-ZoaH"
+	p("Mongodb Object ID", func(int) string {
+		v := oid.NewOID()
+		return fmt.Sprintf("%s (Timestamp: %d)", v, v.Timestamp())
+	})
+	p("Xid Mongo Object ID", func(int) string {
+		v := xid.New()
+		m := base64.RawURLEncoding.EncodeToString(v.Machine())
+		return fmt.Sprintf("%s (Machine: %s, Pid: %d, Time: %s, Counter: %d)", v, m, v.Pid(), v.Time(), v.Counter())
+	})
+	p("BSON Object ID", func(int) string { return gist.NewObjectId().String() })
+	p("Snowfake ID", func(int) string {
+		n, _ := snowflake.NewNode(1)
+		v := n.Generate()
+		return fmt.Sprintf("%d (Time: %d, Node: %d, Step:%d)", v, v.Time(), v.Node(), v.Step())
+	})
 	p("姓名", wrap(chinaid.Name))
 	p("性别", wrap(chinaid.Sex))
 	p("地址", wrap(chinaid.Address))
@@ -82,6 +105,16 @@ func main() {
 	if isHelpTag {
 		fmt.Println()
 	}
+}
+
+func randToken() []byte {
+	token := make([]byte, argLen)
+	rand.Read(token)
+	return token
+}
+
+func PickStr(s string, _ interface{}) string {
+	return s
 }
 
 func wrap(f func() string) func(int) string { return func(int) string { return f() } }

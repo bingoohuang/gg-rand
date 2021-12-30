@@ -17,32 +17,43 @@ Usage of gg-rand:
 
 ```sh
 $ gg-rand
-SillyName       : Knavesaber
-Email           : andrewanderson864@test.com
-IP v4           : 223.247.194.2
-IP v6           : d2d7:e355:b1e5:7f27:2f05:394a:46d8:a116
-UserAgent       : Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Safari/602.1.50
-Password        : uZq4f-cxlwT-5FMwg-hXGO
-Password Easy   : udsqq-8gJ3N-S52Rr-kbSM
-Numbers         : 226575933607625554263151723594611489412507264130487465203199
-Letters         : qNOPGgeqKMmYCLqgLrSbmzRVjDYcdsCUmQqJlIxAdDoYUrrzpuzLUXyUmxIM
-JSON            : {"bumpy":{},"Adelops":null,"columellate":33.94,"nonplacental":true,"chloroform":true}
-String          : WRgQVhLPCPFDhjXYKlHVXUkYXiBIADdjUQNJVVjeROWHIMQADcYYllBPQMGK
-Captcha         : A5wzI /var/folders/8h/9150s4l16q5bbjq1j6cllvch0000gp/T/126066539/rand210760822.png
-KSUID           : 20ZrviFHnDPlqBIApHXZpMbLKPV (Time: 2021-11-07 13:33:02 +0800 CST, Timestamp: 236263182, Payload: D2438FB3B450995ED6231526352D56A5) 
-UUID            : 2d0c64c6-3f8c-11ec-be1e-acde48001122
-姓名            : 苗蝰坐
-性别            : 男
-地址            : 四川省南充市諺婘路6889号镒癛小区12单元2496室
-手机            : 18956311131
-身份证          : 110870197802037914
-有效期          : 19880901-20080901
-发证机关                : 杭州市公安局某某分局
-邮箱            : iefccafq@crbbe.com.cn
-银行卡          : 6229351116740827553
-日期            : 2007年01月31日
-Generative art Canva    : /var/folders/8h/9150s4l16q5bbjq1j6cllvch0000gp/T/1161453087/rand3133874368.png
-Unsplash                : /var/folders/8h/9150s4l16q5bbjq1j6cllvch0000gp/T/1161453087/rand691563348.png
+Base64Std               : s2HWywPO3Jybzi0UhEPoOZ15q8z4P15eTwjAhLGN5c80tPMn35AUf6zDIppOsymx5efWI7hi09WtCCZthr3vS5UMeOfwSCVDCxHQ4Uh2DSTK6jysPgM+r7UYSxgxEIywxqF7WQ==
+Base64RawStd            : d8QXBl25KifzDTQZQ9MEw4n0bVTxTCNNToOpNrEQSwPp91Vz1RL2l4f8dTAKroYdqmk2ctc19UZVccXu146BAqN6n6hSGLbb790T+dbkmWtarARIzfkhjimO09zdArfomNY1rg
+Base64RawURL            : bKI0w1H8b_FldxsjWFgJAOMmsRuEK4jHPJZnG7KASZU5pTT5Q7zJfuRqGPnLNyVjj5EUZSvBChh6F9-O-vTuy1OrScbcq5GYH2p2UrI-9K7jOhV-Lw8eeXy5Ghq2R6vPSnZCEQ
+Base64URL               : VbvwFHSnTiCR5Moif4jmUrfYmfk4uYYN6z7TT9_JxiOUuvdjnPlHKnrmyCPmB8Uc47tQ-pB0AzIc8TjxJV2U99sZ_fx0cza_TJjzBJ6Eq0WMLyYI8ZDbplyGnvTsVb4uskq6PA==
+SillyName               : Hidequilt
+Email                   : sofiathompson531@test.net
+IP v4                   : 25.170.114.230
+IP v6                   : 805c:2212:f43:14d7:7c43:c136:fa6f:b9f1
+UserAgent               : Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36
+Password                : 9Oi{g-6hG4z-U$168-$Dp3
+Password Easy           : grS62-qCHFq-3ed9K-JStK
+Numbers                 : 539166067412416667334954974546947515445722139493153830556092
+Letters                 : IIdnAocQuIpBSvyGAixjPvTQmtCXOtclhGOwsTARoPPbNgoGVZingkwuEppp
+JSON                    : {"reattract":{"humidity":{"kirk":null},"tricksily":{"dreng":"outstrut"}},"unmind":null,"larch":true,"melliferous":true,"corrupting":[]}
+String                  : MUQBNXJLXVKkUMYclPQPFGYOZFPPXAGZkZCUUkRUSgjGbCYZciYBDVPRDYTa
+Captcha                 : Nkc8B /var/folders/c8/ft7qp47d6lj5579gmyflxbr80000gn/T/4016527990/22zlxsC324MLy0EK3mPFbpEiKpz.png
+KSUID                   : 22zlxtPor8gLqh2Jc3FTDRpJIWw (Time: 2021-12-30 15:15:45 +0800 CST, Timestamp: 240848545, Payload: D904B7E413BA058889853B246519703A) 
+UUID                    : 4a64d2b2-8931-4eb4-8324-463cbdf42cbd
+Aidarkhanov Nano ID     : n4H-MgPP4F72oM-0kPPaj
+Matoous Nano ID         : sXKjs8KQJ92W7duUACO7-
+Mongodb Object ID       : 61cd5ca1c3666e79e0bcec93 (Timestamp: 1640848545)
+Xid Mongo Object ID     : c76lp8dmk1u7jo4asln0 (Machine: tqB8, Pid: 31200, Time: 2021-12-30 15:15:45 +0800 CST, Counter: 9102702)
+BSON Object ID          : 61cd5ca1c3666e79e0000001
+Snowfake ID             : 1476451927121203200 (Time: 1640848545233, Node: 1, Step:0)
+姓名                    : 方壆娋
+性别                    : 女
+地址                    : 山东省济南市銦翶路3464号渏悫小区4单元1840室
+手机                    : 13890151323
+身份证                  : 507814197608039922
+有效期                  : 20061120-20261120
+发证机关                        : 大同市公安局某某分局
+邮箱                    : eodytjij@pural.net
+银行卡                  : 6225684849954910204
+日期                    : 1991年04月01日
+Generative art  : Junas: /var/folders/c8/ft7qp47d6lj5579gmyflxbr80000gn/T/4016527990/22zlxsfODBaBZK4OjGsMewo0RtA.png
+Unsplash        : /var/folders/c8/ft7qp47d6lj5579gmyflxbr80000gn/T/4016527990/22zlyakecXFevHMoUC3vFMqDehv.png
+Image           : 16.8KiB 1928690884_640x320.jpg
 ```
 
 ## captcha
