@@ -13,9 +13,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/bingoohuang/gg-rand/pkg/hash"
+	"github.com/spaolacci/murmur3"
 
+	"github.com/Pallinder/go-randomdata"
 	"github.com/aidarkhanov/nanoid/v2"
+	"github.com/bingoohuang/gg-rand/pkg/hash"
+	"github.com/brianvoe/gofakeit/v6"
+
 	"github.com/bingoohuang/gg-rand/pkg/gist"
 	"github.com/bwmarrin/snowflake"
 	oid "github.com/coolbed/mgo-oid"
@@ -31,10 +35,8 @@ import (
 	"github.com/bingoohuang/gg/pkg/uid"
 	"github.com/google/uuid"
 
-	"github.com/Pallinder/go-randomdata"
 	"github.com/bingoohuang/gg-rand/pkg/str"
 	"github.com/bingoohuang/jj"
-	"github.com/brianvoe/gofakeit/v6"
 	pwe "github.com/kuking/go-pwentropy"
 )
 
@@ -46,6 +48,9 @@ func main() {
 	p("xxhash", createFileFunc(hash.XXH64File))
 	p("md5-hash", createFileFunc(hash.MD5HashFile))
 	p("sha256-hash", createFileFunc(func(f string) ([]byte, error) { return hash.HashFile(f, sha256.New()) }))
+	p("murmur3-32-hash", createFileFunc(func(f string) ([]byte, error) { return hash.HashFile(f, murmur3.New32()) }))
+	p("murmur3-64-hash", createFileFunc(func(f string) ([]byte, error) { return hash.HashFile(f, murmur3.New64()) }))
+	p("murmur3-128-hash", createFileFunc(func(f string) ([]byte, error) { return hash.HashFile(f, murmur3.New128()) }))
 	p("imo-hash", createFileFunc(hash.IMOHashFile))
 
 	rand.Seed(time.Now().UnixNano())
