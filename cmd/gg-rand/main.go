@@ -151,15 +151,14 @@ func createPrinter() (func(name string, f func(int) string), bool) {
 
 	return func(name string, f func(int) string) {
 		if okFn(name) {
-			start := time.Now()
-			if cost {
-				log.Printf("Started")
-			}
+			start0 := time.Now()
 			for i := 0; i < num; i++ {
-				log.Printf("%s: %s", name, f(i))
+				start := time.Now()
+				v := f(i)
+				log.Printf("%s: %s, cost %s", name, v, time.Since(start))
 			}
-			if cost {
-				log.Printf("Completed, cost %s", time.Since(start))
+			if cost && num > 1 {
+				log.Printf("Completed, cost %s", time.Since(start0))
 			}
 		}
 	}, false
