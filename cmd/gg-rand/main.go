@@ -1,14 +1,19 @@
 package main
 
 import (
+	crand "crypto/rand"
+	"crypto/sha256"
 	"encoding/base64"
 	"encoding/hex"
 	"fmt"
+	"io"
+	"log"
 	"math/rand"
 	"os"
 	"strings"
-	"text/tabwriter"
 	"time"
+
+	"github.com/bingoohuang/gg-rand/pkg/hash"
 
 	"github.com/aidarkhanov/nanoid/v2"
 	"github.com/bingoohuang/gg-rand/pkg/gist"
@@ -17,15 +22,12 @@ import (
 	gonanoid "github.com/matoous/go-nanoid/v2"
 	"github.com/rs/xid"
 
-	"github.com/bingoohuang/gg/pkg/rotate"
-
-	"github.com/bingoohuang/gg-rand/pkg/img"
-	"github.com/bingoohuang/gg/pkg/fla9"
-
 	"github.com/bingoohuang/gg-rand/pkg/art"
 	"github.com/bingoohuang/gg-rand/pkg/c7a"
+	"github.com/bingoohuang/gg-rand/pkg/img"
 	"github.com/bingoohuang/gg-rand/pkg/unsplash"
 	"github.com/bingoohuang/gg/pkg/chinaid"
+	"github.com/bingoohuang/gg/pkg/fla9"
 	"github.com/bingoohuang/gg/pkg/uid"
 	"github.com/google/uuid"
 
@@ -37,10 +39,14 @@ import (
 )
 
 func main() {
-	w := new(tabwriter.Writer)
-	w.Init(os.Stdout, 0, 8, 0, '\t', 0)
+	p, isHelpTag := createPrinter()
 
-	p, isHelpTag := createPrinter(w)
+	p("blake3hash-zeebo", createFileFunc(hash.Blake3Zeebo))
+	p("blake3hash-luke", createFileFunc(hash.Blake3Luke))
+	p("xxhash", createFileFunc(hash.XXH64File))
+	p("md5-hash", createFileFunc(hash.MD5HashFile))
+	p("sha256-hash", createFileFunc(func(f string) ([]byte, error) { return hash.HashFile(f, sha256.New()) }))
+	p("imo-hash", createFileFunc(hash.IMOHashFile))
 
 	rand.Seed(time.Now().UnixNano())
 	p("Base64Std", func(int) string { return base64.StdEncoding.EncodeToString(randToken()) })
@@ -96,12 +102,10 @@ func main() {
 	p("银行卡", wrap(chinaid.BankNo))
 	p("日期", func(int) string { return chinaid.RandDate().Format("2006年01月02日") })
 
-	_ = w.Flush()
-	arts(p, w)
+	arts(p)
 	p("Unsplash", unsplash.Random)
 	p("Image", img.RandomImage)
 
-	_ = w.Flush()
 	if isHelpTag {
 		fmt.Println()
 	}
@@ -119,7 +123,7 @@ func PickStr(s string, _ interface{}) string {
 
 func wrap(f func() string) func(int) string { return func(int) string { return f() } }
 
-func createPrinter(w *tabwriter.Writer) (func(name string, f func(int) string), bool) {
+func createPrinter() (func(name string, f func(int) string), bool) {
 	tag = strings.ToUpper(tag)
 
 	if tag == "HELP" {
@@ -142,44 +146,56 @@ func createPrinter(w *tabwriter.Writer) (func(name string, f func(int) string), 
 
 	return func(name string, f func(int) string) {
 		if okFn(name) {
+			start := time.Now()
+			if cost {
+				log.Printf("Started")
+			}
 			for i := 0; i < num; i++ {
-				_, _ = fmt.Fprintf(w, "%s\t: %s\n", name, f(i))
+				log.Printf("%s: %s", name, f(i))
+			}
+			if cost {
+				log.Printf("Completed, cost %s", time.Since(start))
 			}
 		}
 	}, false
 }
 
-func arts(p1 func(name string, f func(int) string), flusher rotate.Flusher) {
+func arts(p1 func(name string, f func(int) string)) {
 	p1("Generative art", func(i int) string {
 		item := artMaps[i%(len(artMaps))]
 		result := item.Fn()
-		flusher.Flush()
 		return item.Name + ": " + result
 	})
 }
 
 var (
 	tag    string
+	input  string
 	num    int
 	argLen int
 	dir    string
+	cost   bool
 )
 
 const usage = `
-  -dir string   in which dir to generate random files. (default temp dir)
-  -n   int      how many random values to generate. (default 1)
-  -len int      length.
-  -tag string   which type to generate, like uuid, art, id, email and etc. (empty for all, help to print all available full tags)
+  -dir,d   string   In which dir to generate random files. (default temp dir)
+  -input,i string   Input file name. 
+  -n       int      How many random values to generate. (default 1)
+  -len,l   int      Length.
+  -cost,c  bool     Time costed.
+  -tag     string   Which type to generate, like uuid, art, id, email and etc. (empty for all, help to print all available full tags)
 `
 
 func init() {
 	fla9.Usage = func() {
 		fmt.Fprintf(os.Stderr, "Usage of %s:%s", os.Args[0], usage)
 	}
-	fla9.StringVar(&dir, "dir", "", "")
-	fla9.StringVar(&tag, "tag", "", "")
+	fla9.StringVar(&dir, "dir,d", "", "")
+	fla9.BoolVar(&cost, "cost,c", false, "")
+	fla9.StringVar(&tag, "tag,t", "", "")
+	fla9.StringVar(&input, "input,i", "", "")
 	fla9.IntVar(&num, "n", 1, "")
-	fla9.IntVar(&argLen, "len", 100, "")
+	fla9.IntVar(&argLen, "len,l", 100, "")
 	fla9.Parse()
 
 	if dir != "" {
@@ -219,4 +235,35 @@ var artMaps = []artMap{
 func printInspect(id uid.KSUID) string {
 	return fmt.Sprintf(`(Time: %v, Timestamp: %v, Payload: %v) `,
 		id.Time(), id.Timestamp(), strings.ToUpper(hex.EncodeToString(id.Payload())))
+}
+
+func createFileFunc(f func(string) ([]byte, error)) func(int) string {
+	return func(int) string {
+		file := input
+		stat, err := os.Stat(file)
+		if err != nil {
+			if !os.IsNotExist(err) {
+				log.Printf("failed to stat %s error: %v", file, err)
+				return ""
+			}
+
+			if temp, err := os.CreateTemp("", ""); err != nil {
+				log.Printf("failed to create temporary file: %v", err)
+				return ""
+			} else {
+				_, _ = io.CopyN(temp, crand.Reader, 10*1024*1024)
+				temp.Close()
+				file = temp.Name()
+			}
+		} else if stat.IsDir() {
+			log.Printf("%s is not allowed to be a directory", file)
+			return ""
+		}
+
+		d, err := f(file)
+		if err != nil {
+			log.Printf("error creating hash: %v", err)
+		}
+		return base64.RawURLEncoding.EncodeToString(d)
+	}
 }
