@@ -1,4 +1,3 @@
-
 # gg-rand
 
 generate random data like name, email, uuid, address, images and etc.
@@ -8,7 +7,6 @@ generate random data like name, email, uuid, address, images and etc.
 
 usage:
 
----
 ```sh
 $ gg-rand -h
 Usage of gg-rand:
@@ -16,9 +14,7 @@ Usage of gg-rand:
   -n   int      how many random values to generate. (default 1)
   -tag string   which random type to generate, like uuid, art, id, email and etc. (default all types)
 ```
----
 
----
 ```sh
 $ gg-rand
 2022/01/23 22:33:09 blake3hash-zeebo: PJ5ZV3A5RRcGZfWyNRlBnZd_O4qGLpPl5u5nCARzfPE, cost 80.742381ms
@@ -66,7 +62,6 @@ $ gg-rand
 2022/01/23 22:33:10 日期: 1972年12月18日, cost 1.073µs
 2022/01/23 22:33:10 Generative art: Junas: /var/folders/8h/9150s4l16q5bbjq1j6cllvch0000gp/T/24667456/246Q7kI5MYd1xmAmrJVVClyPxEP.png, cost 14.250519ms
 ```
----
 
 ## captcha
 
@@ -78,10 +73,8 @@ $ gg-rand
 
 `$ GG_IMG_SIZE=640X320 GG_IMG_FORMAT=JPG GG_IMG_FAST=N GG_IMG_FILE_SIZE=2MiB  gg-rand -tag image -n 10`
 
-
 ## hash functions
 
----
 ```sh
 🕙[2022-01-23 18:32:34.382] ❯ gg-rand -t hash -i '魔戒首部曲：魔戒现身.终极加长版.mkv' -c
 2022/01/23 18:34:44 Started
@@ -103,12 +96,7 @@ $ gg-rand
 2022/01/23 18:35:13 imo-hash: _6ClwBZqBTM3Q9wZJOFVLQ
 2022/01/23 18:35:13 Completed, cost 105.436µs
 ```
----
 
----
-```go
-# Resources
+## Resources
 
 1. [Generating good unique ids in Go](https://blog.kowalczyk.info/article/JyRZ/generating-good-unique-ids-in-go.html)
-```
----
