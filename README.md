@@ -97,6 +97,25 @@ $ gg-rand
 2022/01/23 18:35:13 Completed, cost 105.436µs
 ```
 
+## Unqiue IDs
+
+```sh
+$ gg-rand -t id       
+2022/01/25 11:42:18 oklog/ulid: 01FT7N7GJNSMR4XGY5Y28FSMXV(6B time(ms) + 8B random), cost 11.037µs
+2022/01/25 11:42:18 chilts/sid: 1RDPc~G3gQW-3cCKc7oL1Ki(8B time(ns) + 8B random), cost 2.165µs
+2022/01/25 11:42:18 kjk/betterguid: -MuEJw8K4aw0b06OPepv(8B time(ms) + 9B random ), cost 972ns
+2022/01/25 11:42:18 segmentio/ksuid: 24AnDORnNBgQbosh3rvAgYrY35c(4B time(s) + 16B random) (Prefered), cost 2.927µs
+2022/01/25 11:42:18 lithammer/shortuuid: DqRy7uJ6JPWTcRNKtxAM48(UUIDv4 or v5, encoded in a more compact way), cost 15.173µs
+2022/01/25 11:42:18 google/uuid v4: c1d089c8-06ee-40be-b8d2-0aa0f33ed197, cost 1.759µs
+2022/01/25 11:42:18 satori/go.uuid v4: 11daadfa-2b24-4764-89bf-678f6cb72f60(UUIDv4 from RFC 4112 for comparison), cost 3.396µs
+2022/01/25 11:42:18 Aidarkhanov Nano ID: dSo32Ns7tMFQq5UA85Nfj, cost 1.599µs
+2022/01/25 11:42:18 Matoous Nano ID: lW0jC8NOrw1x0FMhoSxp4, cost 1.573µs
+2022/01/25 11:42:18 Mongodb Object ID: 61ef719ac3666efed9c9f4f4 (Timestamp: 1643082138), cost 2.442µs
+2022/01/25 11:42:18 rs/xid Mongo Object ID: c7nn36nm20rvtmc6odc0 (Machine: 9hA3, Pid: 65241, Time: 2022-01-25 11:42:18 +0800 CST, Counter: 8831832)(4B time(s) + 3B machine id + 2B pid + 3Brandom), cost 6.704µs
+2022/01/25 11:42:18 BSON Object ID: 61ef719ac3666efed9000001, cost 9.629µs
+2022/01/25 11:42:18 Snowfake ID: 1485820295024480256 (Time: 1643082138197, Node: 1, Step:0)(~6B time(10ms) + 1B # + 2B machine id), cost 1.848µs
+```
+
 ## Resources
 
 1. [Generating good unique ids in Go](https://blog.kowalczyk.info/article/JyRZ/generating-good-unique-ids-in-go.html)
