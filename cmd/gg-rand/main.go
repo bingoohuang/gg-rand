@@ -95,13 +95,16 @@ func main() {
 		t := time.Now().UTC()
 		entropy := rand.New(rand.NewSource(t.UnixNano()))
 		v := ulid.MustNew(ulid.Timestamp(t), entropy)
-		return v.String() + "(6B time(ms) + 8B random)"
+		return v.String() + "(48位时间(ms)+64位随机)"
 	})
-	p("chilts/sid", func(int) string { return sid.IdBase64() + " (8B time(ns) + 8B random)" })
-	p("kjk/betterguid", func(int) string { return betterguid.New() + " (8B time(ms) + 9B random )" })
-	p("segmentio/ksuid", func(int) string { v := ksuid.New(); return v.String() + " (4B time(s) + 16B random) (Prefered)" })
-	p("lithammer/shortuuid", func(int) string { return shortuuid.New() + " (UUIDv4 or v5, encoded in a more compact way)" })
-	p("google/uuid v4", func(int) string { return uuid.New().String() })
+	p("chilts/sid", func(int) string { return sid.IdBase64() + " (32位时间(ns)+64位随机)" })
+	p("kjk/betterguid", func(int) string { return betterguid.New() + " (32位时间(ms)+72位随机 )" })
+	p("segmentio/ksuid", func(int) string {
+		v := ksuid.New()
+		return v.String() + " (32位时间(s)+128位随机，20字节，base62固定27位，优选)"
+	})
+	p("lithammer/shortuuid", func(int) string { return shortuuid.New() + " (UUIDv4 or v5, 紧凑编码)" })
+	p("google/uuid v4", func(int) string { return uuid.New().String() + " (128位随机)" })
 	p("satori/go.uuid v4", func(int) string { return guuid.NewV4().String() + " (UUIDv4 from RFC 4112 for comparison)" })
 	p("Aidarkhanov Nano ID", func(int) string { return PickStr(nanoid.New()) }) // "i25_rX9zwDdDn7Sg-ZoaH"
 	p("Matoous Nano ID", func(int) string { return PickStr(gonanoid.New()) })   // "i25_rX9zwDdDn7Sg-ZoaH"
