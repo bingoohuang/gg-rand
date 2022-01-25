@@ -13,31 +13,36 @@ import (
 	"strings"
 	"time"
 
+	"github.com/aidarkhanov/nanoid/v2"
 	"github.com/spaolacci/murmur3"
 
-	"github.com/Pallinder/go-randomdata"
-	"github.com/aidarkhanov/nanoid/v2"
-	"github.com/bingoohuang/gg-rand/pkg/hash"
-	"github.com/brianvoe/gofakeit/v6"
-
 	"github.com/bingoohuang/gg-rand/pkg/gist"
+	"github.com/bingoohuang/gg-rand/pkg/hash"
 	"github.com/bwmarrin/snowflake"
 	oid "github.com/coolbed/mgo-oid"
 	gonanoid "github.com/matoous/go-nanoid/v2"
 	"github.com/rs/xid"
 
+	rd "github.com/Pallinder/go-randomdata"
 	"github.com/bingoohuang/gg-rand/pkg/art"
 	"github.com/bingoohuang/gg-rand/pkg/c7a"
 	"github.com/bingoohuang/gg-rand/pkg/img"
+	"github.com/bingoohuang/gg-rand/pkg/str"
 	"github.com/bingoohuang/gg-rand/pkg/unsplash"
 	"github.com/bingoohuang/gg/pkg/chinaid"
 	"github.com/bingoohuang/gg/pkg/fla9"
-	"github.com/bingoohuang/gg/pkg/uid"
-	"github.com/google/uuid"
-
-	"github.com/bingoohuang/gg-rand/pkg/str"
 	"github.com/bingoohuang/jj"
+	"github.com/brianvoe/gofakeit/v6"
+	"github.com/chilts/sid"
+	"github.com/google/uuid"
+	"github.com/jxskiss/base62"
+	"github.com/kjk/betterguid"
 	pwe "github.com/kuking/go-pwentropy"
+	"github.com/lithammer/shortuuid"
+	"github.com/oklog/ulid"
+	guuid "github.com/satori/go.uuid"
+	"github.com/segmentio/ksuid"
+	"github.com/sony/sonyflake"
 )
 
 func main() {
@@ -58,11 +63,11 @@ func main() {
 	p("Base64RawStd", func(int) string { return base64.RawStdEncoding.EncodeToString(randToken()) })
 	p("Base64RawURL", func(int) string { return base64.RawURLEncoding.EncodeToString(randToken()) })
 	p("Base64URL", func(int) string { return base64.URLEncoding.EncodeToString(randToken()) })
-	p("SillyName", wrap(randomdata.SillyName))
-	p("Email", wrap(randomdata.Email))
-	p("IP v4", wrap(randomdata.IpV4Address))
-	p("IP v6", wrap(randomdata.IpV6Address))
-	p("UserAgent", wrap(randomdata.UserAgentString))
+	p("SillyName", wrap(rd.SillyName))
+	p("Email", wrap(rd.Email))
+	p("IP v4", wrap(rd.IpV4Address))
+	p("IP v6", wrap(rd.IpV6Address))
+	p("UserAgent", wrap(rd.UserAgentString))
 	p("Password", func(int) string { return pwe.PwGen(pwe.FormatComplex, pwe.Strength96) })
 	p("Password Easy", func(int) string { return pwe.PwGen(pwe.FormatEasy, pwe.Strength96) })
 	p("Numbers", func(int) string { return gofakeit.DigitN(60) })
@@ -77,24 +82,43 @@ func main() {
 		return code + " " + img.ToPng(pImg, false)
 	})
 
-	p("KSUID", func(int) string { v, _ := uid.NewRandom(); return v.String() + " " + printInspect(v) })
-	p("UUID", func(int) string { return uuid.New().String() })
+	p("sony/sonyflake", func(int) string {
+		flake := sonyflake.NewSonyflake(sonyflake.Settings{})
+		v, err := flake.NextID()
+		if err != nil {
+			log.Fatalf("flake.NextID() failed with %s\n", err)
+		}
+		// Note: this is base16, could shorten by encoding as base62 string
+		return base62.EncodeToString(base62.FormatUint(v))
+	})
+	p("oklog/ulid", func(int) string {
+		t := time.Now().UTC()
+		entropy := rand.New(rand.NewSource(t.UnixNano()))
+		v := ulid.MustNew(ulid.Timestamp(t), entropy)
+		return v.String() + "(6B time(ms) + 8B random)"
+	})
+	p("chilts/sid", func(int) string { return sid.IdBase64() + " (8B time(ns) + 8B random)" })
+	p("kjk/betterguid", func(int) string { return betterguid.New() + " (8B time(ms) + 9B random )" })
+	p("segmentio/ksuid", func(int) string { v := ksuid.New(); return v.String() + " (4B time(s) + 16B random) (Prefered)" })
+	p("lithammer/shortuuid", func(int) string { return shortuuid.New() + " (UUIDv4 or v5, encoded in a more compact way)" })
+	p("google/uuid v4", func(int) string { return uuid.New().String() })
+	p("satori/go.uuid v4", func(int) string { return guuid.NewV4().String() + " (UUIDv4 from RFC 4112 for comparison)" })
 	p("Aidarkhanov Nano ID", func(int) string { return PickStr(nanoid.New()) }) // "i25_rX9zwDdDn7Sg-ZoaH"
 	p("Matoous Nano ID", func(int) string { return PickStr(gonanoid.New()) })   // "i25_rX9zwDdDn7Sg-ZoaH"
 	p("Mongodb Object ID", func(int) string {
 		v := oid.NewOID()
 		return fmt.Sprintf("%s (Timestamp: %d)", v, v.Timestamp())
 	})
-	p("Xid Mongo Object ID", func(int) string {
+	p("rs/xid Mongo Object ID", func(int) string {
 		v := xid.New()
 		m := base64.RawURLEncoding.EncodeToString(v.Machine())
-		return fmt.Sprintf("%s (Machine: %s, Pid: %d, Time: %s, Counter: %d)", v, m, v.Pid(), v.Time(), v.Counter())
+		return fmt.Sprintf("%s (Machine: %s, Pid: %d, Time: %s, Counter: %d) (4B time(s) + 3B machine id + 2B pid + 3Brandom)", v, m, v.Pid(), v.Time(), v.Counter())
 	})
 	p("BSON Object ID", func(int) string { return gist.NewObjectId().String() })
 	p("Snowfake ID", func(int) string {
 		n, _ := snowflake.NewNode(1)
 		v := n.Generate()
-		return fmt.Sprintf("%d (Time: %d, Node: %d, Step:%d)", v, v.Time(), v.Node(), v.Step())
+		return fmt.Sprintf("%d (Time: %d, Node: %d, Step:%d) (~6B time(10ms) + 1B # + 2B machine id)", v, v.Time(), v.Node(), v.Step())
 	})
 	p("姓名", wrap(chinaid.Name))
 	p("性别", wrap(chinaid.Sex))
@@ -236,7 +260,7 @@ var artMaps = []artMap{
 	{Name: "Random Circle", Fn: art.RandomCircle},
 }
 
-func printInspect(id uid.KSUID) string {
+func printInspect(id ksuid.KSUID) string {
 	return fmt.Sprintf(`(Time: %v, Timestamp: %v, Payload: %v) `,
 		id.Time(), id.Timestamp(), strings.ToUpper(hex.EncodeToString(id.Payload())))
 }
