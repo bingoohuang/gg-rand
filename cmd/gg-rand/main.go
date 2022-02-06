@@ -106,9 +106,9 @@ func main() {
 	p("lithammer/shortuuid", func(int) string { return shortuuid.New() + " (UUIDv4 or v5, 紧凑编码)" })
 	p("google/uuid v4", func(int) string { return uuid.New().String() + " (128位随机)" })
 	p("satori/go.uuid v4", func(int) string { return guuid.NewV4().String() + " (UUIDv4 from RFC 4112 for comparison)" })
-	p("Aidarkhanov Nano ID", func(int) string { return PickStr(nanoid.New()) }) // "i25_rX9zwDdDn7Sg-ZoaH"
-	p("Matoous Nano ID", func(int) string { return PickStr(gonanoid.New()) })   // "i25_rX9zwDdDn7Sg-ZoaH"
-	p("Mongodb Object ID", func(int) string {
+	p("aidarkhanov/nanoid/v2", func(int) string { return PickStr(nanoid.New()) })  // "i25_rX9zwDdDn7Sg-ZoaH"
+	p("matoous/go-nanoid/v2", func(int) string { return PickStr(gonanoid.New()) }) // "i25_rX9zwDdDn7Sg-ZoaH"
+	p("coolbed/mgo-oid Mongodb Object ID", func(int) string {
 		v := oid.NewOID()
 		return fmt.Sprintf("%s (Timestamp: %d)", v, v.Timestamp())
 	})
@@ -182,7 +182,7 @@ func createPrinter() (func(name string, f func(int) string), bool) {
 			for i := 0; i < num; i++ {
 				start := time.Now()
 				v := f(i)
-				log.Printf("%s: %s, cost %s", name, v, time.Since(start))
+				log.Printf("%s: %s (len: %d), cost %s", name, v, len(v), time.Since(start))
 			}
 			if cost && num > 1 {
 				log.Printf("Completed, cost %s", time.Since(start0))
