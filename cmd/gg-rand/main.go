@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"math"
 	"math/rand"
 	"os"
 	"strings"
@@ -90,6 +91,12 @@ func main() {
 		}
 		// Note: this is base16, could shorten by encoding as base62 string
 		return base62.EncodeToString(base62.FormatUint(v))
+	})
+	p("max", func(int) string {
+		return fmt.Sprintf("max int64: %+v (len: %d), int32: %+v (len: %d), int16: %+v, float64: %v, float32:%+v",
+			math.MaxInt64, len(fmt.Sprintf("%+v", math.MaxInt64)),
+			math.MaxInt32, len(fmt.Sprintf("%+v", math.MaxInt32)),
+			math.MaxInt16, math.MaxFloat64, math.MaxFloat32)
 	})
 	p("oklog/ulid", func(int) string {
 		t := time.Now().UTC()
