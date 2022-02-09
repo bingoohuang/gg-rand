@@ -1,5 +1,5 @@
 .PHONY: default test install
-all: default test install
+all: default install
 
 app=$(notdir $(shell pwd))
 appVersion := 1.0.0

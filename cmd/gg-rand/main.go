@@ -6,6 +6,7 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 	"fmt"
+	"github.com/bingoohuang/gg-rand/pkg/cid"
 	"io"
 	"log"
 	"math"
@@ -133,6 +134,8 @@ func main() {
 		v := n.Generate()
 		return []string{v.String(), fmt.Sprintf("41位 Time: %d, 10位 Node: %d, 12位 Step:%d", v.Time(), v.Node(), v.Step())}
 	})
+	p("Random ID with fix length 12", func(int) interface{} { return fmt.Sprintf("%d", cid.Cid12()) })
+
 	p("姓名", wrap(chinaid.Name))
 	p("性别", wrap(chinaid.Sex))
 	p("地址", wrap(chinaid.Address))

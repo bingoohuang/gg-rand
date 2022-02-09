@@ -17,6 +17,7 @@ require (
 	github.com/jdxyw/generativeart v0.0.0-20220127024657-50049f153090
 	github.com/jxskiss/base62 v1.1.0
 	github.com/kalafut/imohash v1.0.2
+	github.com/kelindar/bitmap v1.2.0
 	github.com/kjk/betterguid v0.0.0-20170621091430-c442874ba63a
 	github.com/kuking/go-pwentropy v0.0.0-20200622162422-156827dab9e6
 	github.com/lazybeaver/xorshift v0.0.0-20170702203709-ce511d4823dd
@@ -35,8 +36,11 @@ require (
 )
 
 require (
+	github.com/RoaringBitmap/roaring v0.9.4 // indirect
+	github.com/bits-and-blooms/bitset v1.2.0 // indirect
 	github.com/fogleman/gg v1.3.0 // indirect
 	github.com/klauspost/cpuid/v2 v2.0.9 // indirect
+	github.com/mschoch/smat v0.2.0 // indirect
 	github.com/pbnjay/pixfont v0.0.0-20200714042608-33b744692567 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/twmb/murmur3 v1.1.5 // indirect

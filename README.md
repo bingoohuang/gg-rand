@@ -123,6 +123,7 @@ $ gg-rand -t id
 2022/02/09 16:23:27 rs/xid Mongo Object ID: c81njvvm20rkrh97sdh0 (len: 20) [32 位Time: 2022-02-09 16:23:27 +0800 CST, 24位Machine: 9hA3, Pid: 19909, , Counter: 2614114 4B time(s) + 3B machine id + 2B pid + 3Brandom], cost 6.067µs
 2022/02/09 16:23:27 BSON Object ID: 620379ffc3666e4dc5000001 (len: 24), cost 8.717µs
 2022/02/09 16:23:27 Snowfake ID: 1491326866961731584 (len: 19) [41位 Time: 1644395007254, 10位 Node: 1, 12位 Step:0], cost 6.335µs
+2022/02/09 19:19:58 Random ID with fix length 12: 100201261364 (len: 12), cost 9.655µs
 ```
 
 ## Resources
