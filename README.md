@@ -57,6 +57,7 @@ $ gg-rand
 2022/02/09 16:24:42 rs/xid Mongo Object ID: c81nkinm20rksoqq5g70 (len: 20) [32 位Time: 2022-02-09 16:24:42 +0800 CST, 24位Machine: 9hA3, Pid: 20067, , Counter: 5909518 4B time(s) + 3B machine id + 2B pid + 3Brandom], cost 7.494µs
 2022/02/09 16:24:42 BSON Object ID: 62037a4ac3666e4e63000001 (len: 24), cost 9.635µs
 2022/02/09 16:24:42 Snowfake ID: 1491327182297894912 (len: 19) [41位 Time: 1644395082436, 10位 Node: 1, 12位 Step:0], cost 1.948µs
+2022/02/09 22:09:23 snowflake ID with length 12: 100000001537 (len: 12), cost 4.845µs
 2022/02/09 16:24:42 姓名: 禄鋅籴 (len: 9), cost 3.888µs
 2022/02/09 16:24:42 性别: 女 (len: 3), cost 318ns
 2022/02/09 16:24:42 地址: 广西壮族自治区桂林市蚐珗路2174号夕啹小区16单元807室 (len: 72), cost 3.246µs

@@ -7,6 +7,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"github.com/bingoohuang/gg-rand/pkg/cid"
+	"github.com/bingoohuang/gg-rand/pkg/snow2"
 	"io"
 	"log"
 	"math"
@@ -129,12 +130,18 @@ func main() {
 			v.Time(), m, v.Pid(), v.Counter())}
 	})
 	p("BSON Object ID", func(int) interface{} { return gist.NewObjectId().String() })
-	p("Snowfake ID", func(int) interface{} {
+	p("snowflake ID", func(int) interface{} {
 		n, _ := snowflake.NewNode(1)
 		v := n.Generate()
 		return []string{v.String(), fmt.Sprintf("41位 Time: %d, 10位 Node: %d, 12位 Step:%d", v.Time(), v.Node(), v.Step())}
 	})
 	p("Random ID with fix length 12", func(int) interface{} { return fmt.Sprintf("%d", cid.Cid12()) })
+	p("snowflake ID with length 12", func(int) interface{} {
+		//t, _ := time.Parse("20060102", "20200603")
+		node, _ := snow2.NewNode( /*snow2.WithEpoch(t),*/ snow2.WithEpochAdd(97656251),
+			snow2.WithNodeBits(2), snow2.WithStepBits(8), snow2.WithTimeRound(time.Minute))
+		return fmt.Sprintf("%d", node.Next())
+	})
 
 	p("姓名", wrap(chinaid.Name))
 	p("性别", wrap(chinaid.Sex))

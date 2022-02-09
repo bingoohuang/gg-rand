@@ -3,6 +3,7 @@ package cid
 import (
 	"fmt"
 	"github.com/RoaringBitmap/roaring/roaring64"
+	"math"
 	"math/big"
 	"strings"
 	"testing"
@@ -13,7 +14,7 @@ func TestCid12(t *testing.T) {
 
 	cnt := 0
 	not12cnt := 0
-	n := 100000
+	n := 10000
 	for i := 0; i < n; i++ {
 		v := Cid12()
 		if len(fmt.Sprintf("%d", v)) != 12 {
@@ -41,56 +42,66 @@ func TestCid12(t *testing.T) {
 }
 
 func TestFindAtLeastBits(t *testing.T) {
-	// 100000000000: 00010111 01001000 01110110 11101000 00000000
-	// 999999999999: 11101000 11010100 10100101 00001111 11111111
+	t.Log(97656251 << 10)
+	t.Log(0b101110100100001110110111011)
+	t.Log(0b11101000_11010100_10100101_000100)
+	// (976562500-1525880)/60/24/365 = 1855年
+	// 100000000000: 1011101001000011101101110100000000000
+	// 999999999999: 1110100011010100101001010000111111111111
 	min12, max12 := MinNum(12), MaxNum(12)
-	t.Log("min12:", min12)
-	t.Log(FormatBig(min12))
-	//t.Log(fmt.Sprintf("%b", min12))
-	t.Log("max12:", max12)
-	t.Log(FormatBig(max12))
-	//t.Log(fmt.Sprintf("%b", max12))
+
+	t.Log(BigAdd(new(big.Int).Rsh(min12, 10), 1))
+	t.Log(BigAdd(new(big.Int).Rsh(max12, 10), 1))
+
+	t.Log("min12:", min12, "BINARY:", FormatBig(min12))
+	t.Log("max12:", max12, "BINARY:", FormatBig(max12))
 	//t.Log(0b0001011101010) // 746, (2^13-746)/365 = 20.4 能用20.4年，每天可用ID数是 2^27 = 134,217,728，13亿
 
-	//  10000000000000000000:          10001010 11000111 00100011 00000100 10001001 11101000 00000000 00000000
+	//  10000000000000000000:          0b10001010_11000111_00100011_00000100_10001001_11101000_00000000_00000000
 	//  99999999999999999999: 00000101 01101011 11000111 01011110 00101101 01100011 00001111 11111111 11111111
 	min20, max20 := MinNum(20), MaxNum(20)
-	t.Log("min20:", min20)
-	t.Log(FormatBig(min20))
-	//t.Log(fmt.Sprintf("%b", min20))
-	t.Log("max20:", max20)
-	t.Log(FormatBig(max20))
-	//t.Log(fmt.Sprintf("%b", max20))
+	t.Log("min20:", min20, "BINARY:", FormatBig(min20))
+	t.Log("max20:", max20, "BINARY:", FormatBig(max20))
 }
 
 func MinNum(fixedLength int) (b *big.Int) {
 	sv := strings.Repeat("9", fixedLength-1)
 	n, _ := new(big.Int).SetString(sv, 10)
-	m := new(big.Int)
-	m.SetInt64(1)
-	return m.Add(n, m)
+	return BigAdd(n, 1)
 }
 
+func BigAdd(a *big.Int, add int64) (b *big.Int) {
+	return a.Add(a, new(big.Int).SetInt64(add))
+}
 func MaxNum(fixedLength int) (b *big.Int) {
 	sv := strings.Repeat("9", fixedLength)
 	n, _ := new(big.Int).SetString(sv, 10)
 	return n
 }
 
+func TestFormatBig(t *testing.T) {
+	min12, max12 := MinNum(12), MaxNum(12)
+	t.Log(fmt.Sprintf("%b", min12))
+	t.Log(FormatBig(min12))
+	t.Log(fmt.Sprintf("%b", max12))
+	t.Log(FormatBig(max12))
+}
+
 func FormatBig(b *big.Int) string {
-	v := ""
-	s := fmt.Sprintf("%b", b)
-	for i := len(s) - 8; ; i -= 8 {
-		if i < 0 {
-			v = strings.Repeat("0", -i) + s[:i+8] + " " + v
-			break
-		} else {
-			v = s[i:i+8] + " " + v
-			if i == 0 {
-				break
-			}
-		}
+	str := fmt.Sprintf("%b", b)
+
+	strLength := len(str)
+	n := int(math.Ceil(float64(strLength) / float64(8)))
+
+	n0 := strLength % 8
+	sn := make([]string, n)
+	if n0 == 0 {
+		n0 = 8
+	}
+	sn[0] = strings.Repeat("0", 8-n0) + str[:n0]
+	for i := 1; i < n; i++ {
+		sn[i] = str[n0+(i-1)*8 : n0+i*8]
 	}
 
-	return v
+	return "0b" + strings.Join(sn, "_")
 }
