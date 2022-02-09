@@ -3,10 +3,11 @@ package snow2
 
 import (
 	"errors"
-	"github.com/bingoohuang/gg/pkg/randx"
 	"strconv"
 	"sync"
 	"time"
+
+	"github.com/bingoohuang/gg/pkg/randx"
 )
 
 const (
@@ -42,10 +43,10 @@ func WithNodeBits(n uint8) ConfigFn          { return func(c *Config) { c.NodeBi
 type Node struct {
 	Config
 
-	mu   sync.Mutex
-	time time.Duration
-	node int64
-	step int64
+	mu      sync.Mutex
+	elapsed time.Duration
+	node    int64
+	step    int64
 
 	nodeMax   int64
 	nodeMask  int64
@@ -57,7 +58,7 @@ type Node struct {
 
 // NewNode returns a new snowflake node that can be used to generate snowflake IDs
 func NewNode(fns ...ConfigFn) (*Node, error) {
-	epoch, _ := time.Parse("2006-01-02", "2022-02-09")
+	epoch, _ := time.ParseInLocation("2006-01-02 15:04:05", "2022-02-10 00:11:25", time.Local)
 	c := Config{
 		Epoch:     epoch,
 		TimeRound: time.Millisecond,
@@ -85,8 +86,8 @@ func NewNode(fns ...ConfigFn) (*Node, error) {
 		return nil, errors.New("Node number must be between 0 and " + strconv.FormatInt(n.nodeMax, 10))
 	}
 
-	n.start = time.Now()
-	n.step = int64(randx.IntN(int(n.stepMask)))
+	n.start = c.Epoch
+	// n.step = int64(randx.IntN(int(n.stepMask)))
 
 	return &n, nil
 }
@@ -105,18 +106,24 @@ func (n *Node) Next() int64 {
 	n.mu.Lock()
 	defer n.mu.Unlock()
 
-	now := time.Since(n.start) / n.TimeRound
-	if now == n.time {
+	elapsed := time.Since(n.start) / n.TimeRound
+	if elapsed < n.elapsed { // 处理时间回拨（时间回拨，不应回拨过多）
+		time.Sleep((n.elapsed - elapsed) * n.TimeRound)
+		elapsed = time.Since(n.start) / n.TimeRound
+	}
+
+	if elapsed == n.elapsed {
 		if n.step = (n.step + 1) & n.stepMask; n.step == 0 {
-			for now <= n.time {
-				now = time.Since(n.start) / n.TimeRound
+			for elapsed <= n.elapsed {
+				elapsed = time.Since(n.start) / n.TimeRound
 			}
 		}
 	} else {
 		n.step = 0
 	}
 
-	n.time = now
-	r := (int64(now)+n.EpochAdd)<<n.timeShift | (n.node << n.nodeShift) | (n.step)
-	return r
+	n.elapsed = elapsed
+	tt := (int64(elapsed) + n.EpochAdd) << n.timeShift
+	nn := n.node << n.nodeShift
+	return tt | nn | n.step
 }

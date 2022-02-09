@@ -6,8 +6,6 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 	"fmt"
-	"github.com/bingoohuang/gg-rand/pkg/cid"
-	"github.com/bingoohuang/gg-rand/pkg/snow2"
 	"io"
 	"log"
 	"math"
@@ -15,6 +13,9 @@ import (
 	"os"
 	"strings"
 	"time"
+
+	"github.com/bingoohuang/gg-rand/pkg/cid"
+	"github.com/bingoohuang/gg-rand/pkg/snow2"
 
 	"github.com/aidarkhanov/nanoid/v2"
 	"github.com/spaolacci/murmur3"
@@ -130,18 +131,19 @@ func main() {
 			v.Time(), m, v.Pid(), v.Counter())}
 	})
 	p("BSON Object ID", func(int) interface{} { return gist.NewObjectId().String() })
+	n, _ := snowflake.NewNode(1)
 	p("snowflake ID", func(int) interface{} {
-		n, _ := snowflake.NewNode(1)
 		v := n.Generate()
 		return []string{v.String(), fmt.Sprintf("41位 Time: %d, 10位 Node: %d, 12位 Step:%d", v.Time(), v.Node(), v.Step())}
 	})
+
+	// t, _ := time.Parse("20060102", "20200603")
+	// 每秒可以生成 256 个，可以有 4 个节点，可以使用 27.8 年，计算过程，见 cid_test.go
+	n2, _ := snow2.NewNode( /*snow2.WithEpoch(t),*/ snow2.WithEpochAdd(97656251),
+		snow2.WithNodeBits(2), snow2.WithStepBits(8), snow2.WithTimeRound(time.Second))
+
 	p("Random ID with fix length 12", func(int) interface{} { return fmt.Sprintf("%d", cid.Cid12()) })
-	p("snowflake ID with length 12", func(int) interface{} {
-		//t, _ := time.Parse("20060102", "20200603")
-		node, _ := snow2.NewNode( /*snow2.WithEpoch(t),*/ snow2.WithEpochAdd(97656251),
-			snow2.WithNodeBits(2), snow2.WithStepBits(8), snow2.WithTimeRound(time.Minute))
-		return fmt.Sprintf("%d", node.Next())
-	})
+	p("customized snowflake ID with length 12", func(int) interface{} { return fmt.Sprintf("%d", n2.Next()) })
 
 	p("姓名", wrap(chinaid.Name))
 	p("性别", wrap(chinaid.Sex))

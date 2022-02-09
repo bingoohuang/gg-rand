@@ -4,6 +4,7 @@ go 1.18
 
 require (
 	github.com/Pallinder/go-randomdata v1.2.0
+	github.com/RoaringBitmap/roaring v0.9.4
 	github.com/aidarkhanov/nanoid/v2 v2.0.5
 	github.com/bingoohuang/gg v0.0.0-20220209061112-9cea4c89abc5
 	github.com/bingoohuang/jj v0.0.0-20211209023116-c83e26365b20
@@ -17,7 +18,6 @@ require (
 	github.com/jdxyw/generativeart v0.0.0-20220127024657-50049f153090
 	github.com/jxskiss/base62 v1.1.0
 	github.com/kalafut/imohash v1.0.2
-	github.com/kelindar/bitmap v1.2.0
 	github.com/kjk/betterguid v0.0.0-20170621091430-c442874ba63a
 	github.com/kuking/go-pwentropy v0.0.0-20200622162422-156827dab9e6
 	github.com/lazybeaver/xorshift v0.0.0-20170702203709-ce511d4823dd
@@ -36,7 +36,6 @@ require (
 )
 
 require (
-	github.com/RoaringBitmap/roaring v0.9.4 // indirect
 	github.com/bits-and-blooms/bitset v1.2.0 // indirect
 	github.com/fogleman/gg v1.3.0 // indirect
 	github.com/klauspost/cpuid/v2 v2.0.9 // indirect
