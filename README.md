@@ -1,4 +1,3 @@
-
 # gg-rand
 
 generate random data like name, email, uuid, address, images and etc.
@@ -8,7 +7,6 @@ generate random data like name, email, uuid, address, images and etc.
 
 usage:
 
----
 ```sh
 $ gg-rand -h
 Usage of gg-rand:
@@ -16,57 +14,63 @@ Usage of gg-rand:
   -n   int      how many random values to generate. (default 1)
   -tag string   which random type to generate, like uuid, art, id, email and etc. (default all types)
 ```
----
 
----
 ```sh
 $ gg-rand
-2022/01/23 22:33:09 blake3hash-zeebo: PJ5ZV3A5RRcGZfWyNRlBnZd_O4qGLpPl5u5nCARzfPE, cost 80.742381ms
-2022/01/23 22:33:09 blake3hash-luke: yWZYouzuR90GTFER54ZKO1OVAjT0TuiIdum9S8HP-SXl4zMO2d4IGgdljNJzTnrSjL_U1TmH_3EGCzDS3R6kZFaWvhqKfZVdGLFfPJ3dsJbTHpfTkTopSL7yPKxNP5WsDFinBBVnapUhloiclAJd6t8tUNiMqkwIzqb68UIPFoSIh2Mt0GoDg7pdCrHdWahMTAdnfn1alJbbSdAp2rwS5g5apHJ5g9a1DvHYz76MK0VRtOav4C8UUkIaPIEd1DgU3b6QZTmXSuihagNM4miW4WYKFs7UKJF2ZH_MegWe8y94OwVKU7FujDkqL4yWz_F0biitVuefs8BXRPTokBlt-g, cost 77.227436ms
-2022/01/23 22:33:09 xxhash: lnwaRNk09Y0, cost 72.403683ms
-2022/01/23 22:33:09 md5-hash: akoJmwfWqUN0OYw5AmUyVA, cost 91.057546ms
-2022/01/23 22:33:10 sha256-hash: bsHROpReF8eH0dTm_uOSSmDfAF6A12FlGM5L6hzTM64, cost 102.320918ms
-2022/01/23 22:33:10 murmur3-32-hash: fUBT2A, cost 76.984569ms
-2022/01/23 22:33:10 murmur3-64-hash: ulTNGS2lJXk, cost 74.565215ms
-2022/01/23 22:33:10 murmur3-128-hash: yDWUW7EjCnVwxcZe8Ame5w, cost 72.289683ms
-2022/01/23 22:33:10 imo-hash: gICABTmUgNRrggQrueZ2DQ, cost 69.669246ms
-2022/01/23 22:33:10 Base64Std: kevsaZAgRRVRY9T3ZKtPqLDcfajygLx0c1H8NRMu0w5ivXQNhARJXUB3r4gAbwoj3Tg+BmgCFhCsb/otCk84ZXNLS1oqXve4ayHA6Ca9ZcFdhTtslXb00WtAQLLQ3OUWpykxBg==, cost 10.58µs
-2022/01/23 22:33:10 Base64RawStd: qZrIhHmFPXfXMGPXHsMQixysSQ+AqYOXkRPprVGxPWqk4eehjx2EYeAGmi5RfITTCU1uHy4Hb6p9rFl2j0Pihuu+3DQvM+N5zIieO1Pe6FwBoTZ0gf4HSmfAJdarxG8ouzfB3w, cost 794ns
-2022/01/23 22:33:10 Base64RawURL: t9W3-XUwP8Cfyr5gznvKUJHZnMtHE3OFKmUIBCzEb_DB_2dMeBgV-9kD2az-fqBzHO7RYlfICKQLxcT-YuK8wLrKgd5r9ue48Em8yLP-RB-w9EnYZFsLd8J-E3CzhcRqDfzdiA, cost 580ns
-2022/01/23 22:33:10 Base64URL: 4UuhmfKFo9qucthEKWVPmnLfMIyGgt1EApeeUdILvvl4_hiR1h0L-w4GocpGSJmZSJJgmfSsFpMwwy7B4uGNcvNPLe7w3IeXYWusZVzwvE0kHHaJbR9_8UkkPAaPJVINNs0ARw==, cost 564ns
-2022/01/23 22:33:10 SillyName: Chilleriridescent, cost 2.489µs
-2022/01/23 22:33:10 Email: avathompson520@test.org, cost 3.127µs
-2022/01/23 22:33:10 IP v4: 33.177.133.101, cost 13.176µs
-2022/01/23 22:33:10 IP v6: 5802:a7c7:f419:a64:614e:418a:77c4:dad4, cost 1.871µs
-2022/01/23 22:33:10 UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:52.0) Gecko/20100101 Firefox/52.0, cost 681ns
-2022/01/23 22:33:10 Password: C?s7O-]]F]a-0G[3I-XObM, cost 56.475µs
-2022/01/23 22:33:10 Password Easy: SWsA6-kySCb-d655v-zHtC, cost 34.863µs
-2022/01/23 22:33:10 Numbers: 250166123848045435121681614516459885310105082646722299461075, cost 13.619µs
-2022/01/23 22:33:10 Letters: CmfEsTxaOMfSpeYYBIVGnreLBjTPhqsecWoTqHLTHMmlpRbRVSdnsHMFelIL, cost 2.531µs
-2022/01/23 22:33:10 JSON: {"stratocrat":true,"Babiana":"stability","feeler":["hamble",false],"foreseer":null,"quinton":[null,null]}, cost 9.863µs
-2022/01/23 22:33:10 String: JGEYHDaFlBTUQGHTEhNHPHOlSJYQSJVMbiVXYWKXSHJcCNTYgUWfIYNAOJLT, cost 989ns
-2022/01/23 22:33:10 Captcha: dv5Nf /var/folders/8h/9150s4l16q5bbjq1j6cllvch0000gp/T/24667456/246Q7g8xTMy4L993NZoPLRO17iA.png, cost 4.737323ms
-2022/01/23 22:33:10 KSUID: 246Q7kCMGsekxcuLj7tJksUxuUF (Time: 2022-01-23 22:33:10 +0800 CST, Timestamp: 242948390, Payload: E2B3BD706BEC8A422964D0F7F459497B) , cost 17.303µs
-2022/01/23 22:33:10 UUID: 07222c05-36f2-426f-89de-d3e7626a67e1, cost 2.403µs
-2022/01/23 22:33:10 Aidarkhanov Nano ID: ywXqIAQiF8OHvSCXnVtMf, cost 4.559µs
-2022/01/23 22:33:10 Matoous Nano ID: i6jEQJcEc8GzB34lUSA1o, cost 2.038µs
-2022/01/23 22:33:10 Mongodb Object ID: 61ed6726421aa9239a0a3d2e (Timestamp: 1642948390), cost 2.246µs
-2022/01/23 22:33:10 Xid Mongo Object ID: c7mme9nm20ri76kd87l0 (Machine: 9hA3, Pid: 9114, Time: 2022-01-23 22:33:10 +0800 CST, Counter: 9257450), cost 4.406µs
-2022/01/23 22:33:10 BSON Object ID: 61ed6726421aa9239a000001, cost 12.401µs
-2022/01/23 22:33:10 Snowfake ID: 1485259315827707904 (Time: 1642948390334, Node: 1, Step:0), cost 2.427µs
-2022/01/23 22:33:10 姓名: 钟奥鮉, cost 1.875µs
-2022/01/23 22:33:10 性别: 男, cost 774ns
-2022/01/23 22:33:10 地址: 西藏自治区拉萨市挂瞫路7736号鍩亂小区7单元1701室, cost 6.756µs
-2022/01/23 22:33:10 手机: 15992702119, cost 1.377µs
-2022/01/23 22:33:10 身份证: 630275201202034488, cost 14.437µs
-2022/01/23 22:33:10 有效期: 20191230-20391230, cost 1.669µs
-2022/01/23 22:33:10 发证机关: 丽江市公安局某某分局, cost 416ns
-2022/01/23 22:33:10 邮箱: uqmkkvug@lijjq.vip, cost 821ns
-2022/01/23 22:33:10 银行卡: 6217281420195002112, cost 3.159µs
-2022/01/23 22:33:10 日期: 1972年12月18日, cost 1.073µs
-2022/01/23 22:33:10 Generative art: Junas: /var/folders/8h/9150s4l16q5bbjq1j6cllvch0000gp/T/24667456/246Q7kI5MYd1xmAmrJVVClyPxEP.png, cost 14.250519ms
+2022/02/09 16:24:41 blake3hash-zeebo: OdbRwQm39Xg320PK3wGpScNotdT2Vepc7ytlI0dDODQ (len: 43), cost 110.262677ms
+2022/02/09 16:24:41 blake3hash-luke: JHYuMdCv8ukbHhKCEkP1_yuIjTK5wkwtM9CxD-8_HPnjiZyXRWDtfY6MGnag_bVdcgg94dgYNRtAwAZmXRYKUHCg0cQcKiyygFLerPAv6QzLFnxxclU2heQzy_r0NziXiMvhyps1Gi6-UOoF6TQvrwftrQfHolJb_-pKCOK_Cm3fIWDDj40Azy5CLLVV_SmDfZ5rwRQxmLfp5K4f8rEM-ikY9EwGradqtBo_CxNIc98BBAPN4OClqK5QTVW7g4ghduJad88V9knM1zYSNVlka5Lq4L1dV4VAjQCrMevm15BsEh1csLAdQdIqky6et6UQnVcp09NmfBt6WoKYHl1pSQ (len: 342), cost 124.770632ms
+2022/02/09 16:24:41 xxhash: q9h7Tuzi1qM (len: 11), cost 116.536003ms
+2022/02/09 16:24:41 md5-hash: cUe18VdgGa-XFCljkq7wiA (len: 22), cost 132.357882ms
+2022/02/09 16:24:41 sha256-hash: boaaniPXpXX_GFamzKj9Ea3GJTAnqiYnnuXwqQz1MqU (len: 43), cost 137.361395ms
+2022/02/09 16:24:42 murmur3-32-hash: MPD03Q (len: 6), cost 106.671235ms
+2022/02/09 16:24:42 murmur3-64-hash: EuQz3Y4Nnek (len: 11), cost 114.245447ms
+2022/02/09 16:24:42 murmur3-128-hash: e1Fj91t7t6QMFXei13nMvw (len: 22), cost 140.784351ms
+2022/02/09 16:24:42 imo-hash: gICABRY0XoE9IHAgLWqCJA (len: 22), cost 106.050856ms
+2022/02/09 16:24:42 Base64Std: f8mqas/S1LGCwwK1FR320ENVuVCbHT72TiSZyjpM7PtlA0nMMGiPXzS/JPqXsFxnr2fhNZSt6F5NH6BnkoyEWGJ5fu6ueAHk7FL09TBvj8XZYP1RmyUjO4iiOfoKdEb5KEcjjA== (len: 136), cost 5.031µs
+2022/02/09 16:24:42 Base64RawStd: b4pUObv7+IJBZu943mI7bpRCtZlR8MhC+IG9ABALM+21xPeP4hqCMMBP9vsRAw/0oU1gU0GxZKmAg1Vdar1IiH+A4cntm6PItMZ0D0Qo63+tJRu3qMJ/FpYTeXANXBJj7XzYcg (len: 134), cost 764ns
+2022/02/09 16:24:42 Base64RawURL: ZtEyJVQZ51VALEbv3hilkwWXjXPToadvSZz1XrL31o7EKRqV4MZhMbO5Jh9NL4Qkevoy2w1bQGNXIlbvqfP0ApGAaQVU_GPFf0RIGUyVm_jU4RAyJ7BSUv5TXFg_BV-ivtyycg (len: 134), cost 534ns
+2022/02/09 16:24:42 Base64URL: FlH8nbpRn4uhbkdC1dUebUY0DZEowvvlk9WK6A4ol7kDCIfqXCYLAGp0Ey0sCwhtynpB9t6Xd78oSqTYXpQRwmnAs0qgLnrZJdGZCz-R-9S1TDp9AbucCLXyqiRxKBjZhlZw-w== (len: 136), cost 516ns
+2022/02/09 16:24:42 SillyName: Mooserelic (len: 10), cost 5.703µs
+2022/02/09 16:24:42 Email: masonwilson107@example.org (len: 26), cost 2.198µs
+2022/02/09 16:24:42 IP v4: 60.207.191.140 (len: 14), cost 8.763µs
+2022/02/09 16:24:42 IP v6: 65ae:2f5a:d92d:cd01:12b8:3927:d2d0:9b12 (len: 39), cost 3.944µs
+2022/02/09 16:24:42 UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3191.0 Safari/537.36 (len: 113), cost 304ns
+2022/02/09 16:24:42 Password: ptsBM-kDedt-S{hzo-Lno9 (len: 22), cost 52.782µs
+2022/02/09 16:24:42 Password Easy: ypu8x-DJSwt-BShh3-5J3S (len: 22), cost 33.681µs
+2022/02/09 16:24:42 Numbers: 498191799037817419435967889659003612890309828314892366290145 (len: 60), cost 5.749µs
+2022/02/09 16:24:42 Letters: LobfjxyUwsdGYctNwTZwKetlKFiKZxsVMeBrUUxANDKRjsenhBrsUvQUocIr (len: 60), cost 2.345µs
+2022/02/09 16:24:42 JSON: {"bitterful":"aculea","permissibly":{"preliberally":[],"theorize":[]},"perilymphatic":true,"Didelphidae":true,"rigging":null} (len: 125), cost 4.4µs
+2022/02/09 16:24:42 String: BTSRFQHeDDUBgQOHKIKIEIjNRTkDbBUBWYOSIUPbKEXiQNfFOVBEUSHKXjDH (len: 60), cost 1.972µs
+2022/02/09 16:24:42 Captcha: K2uVB /var/folders/c8/ft7qp47d6lj5579gmyflxbr80000gn/T/3399639142/24riPYhhSEfX50mvA6gueAEgRLN.png (len: 97), cost 4.502781ms
+2022/02/09 16:24:42 sony/sonyflake: olncG1UcoJ3RkB (len: 14), cost 97.309µs
+2022/02/09 16:24:42 max: int64: 9223372036854775807 (len: 19), int32: 2147483647 (len: 10), int16: 32767, float64: 1.7976931348623157e+308, float32:3.4028234663852886e+38 (len: 145), cost 3.594µs
+2022/02/09 16:24:42 oklog/ulid: 01FVESBCP39WCVMB54918YD9TV (len: 26) [48位时间(ms)+64位随机], cost 12.474µs
+2022/02/09 16:24:42 chilts/sid: 1RI49qr~eo0-5B92iPbeSeC (len: 23) [32位时间(ns)+64位随机], cost 2.491µs
+2022/02/09 16:24:42 kjk/betterguid: -MvS_QA2HBqKtC5Fwqbq (len: 20) [32位时间(ms)+72位随机], cost 956ns
+2022/02/09 16:24:42 segmentio/ksuid: 24riPX4Ge1orfjiCiHn6a4QdoXA (len: 27) [32位时间(s)+128位随机，20字节，base62固定27位，优选], cost 5.044µs
+2022/02/09 16:24:42 lithammer/shortuuid: fG5UJ57EYoGwvDHFtPWG5d (len: 22) [UUIDv4 or v5, 紧凑编码], cost 28.595µs
+2022/02/09 16:24:42 google/uuid v4: 548ff664-15d6-4576-87d5-4695d3c7fe9a (len: 36) [128位随机], cost 2.056µs
+2022/02/09 16:24:42 satori/go.uuid v4: ec10990f-0a6a-4b55-bd26-a08d00099c69 (len: 36) [UUIDv4 from RFC 4112 for comparison], cost 1.427µs
+2022/02/09 16:24:42 aidarkhanov/nanoid/v2: Ex39CoboQ9cSehI11_3ln (len: 21), cost 1.706µs
+2022/02/09 16:24:42 matoous/go-nanoid/v2: 0lp862X43q68DvDE3-Zdq (len: 21), cost 1.788µs
+2022/02/09 16:24:42 coolbed/mgo-oid Mongodb Object ID: 62037a4ac3666e4e63d1f9cd (len: 24) [Timestamp: 1644395082], cost 976ns
+2022/02/09 16:24:42 rs/xid Mongo Object ID: c81nkinm20rksoqq5g70 (len: 20) [32 位Time: 2022-02-09 16:24:42 +0800 CST, 24位Machine: 9hA3, Pid: 20067, , Counter: 5909518 4B time(s) + 3B machine id + 2B pid + 3Brandom], cost 7.494µs
+2022/02/09 16:24:42 BSON Object ID: 62037a4ac3666e4e63000001 (len: 24), cost 9.635µs
+2022/02/09 16:24:42 Snowfake ID: 1491327182297894912 (len: 19) [41位 Time: 1644395082436, 10位 Node: 1, 12位 Step:0], cost 1.948µs
+2022/02/09 16:24:42 姓名: 禄鋅籴 (len: 9), cost 3.888µs
+2022/02/09 16:24:42 性别: 女 (len: 3), cost 318ns
+2022/02/09 16:24:42 地址: 广西壮族自治区桂林市蚐珗路2174号夕啹小区16单元807室 (len: 72), cost 3.246µs
+2022/02/09 16:24:42 手机: 18341190333 (len: 11), cost 1.136µs
+2022/02/09 16:24:42 身份证: 367384201204211866 (len: 18), cost 10.186µs
+2022/02/09 16:24:42 有效期: 19980428-20180428 (len: 17), cost 1.393µs
+2022/02/09 16:24:42 发证机关: 七台河市公安局某某分局 (len: 33), cost 574ns
+2022/02/09 16:24:42 邮箱: qtsmsepg@xhaee.space (len: 20), cost 1.588µs
+2022/02/09 16:24:42 银行卡: 6214481128785714252 (len: 19), cost 2.465µs
+2022/02/09 16:24:42 日期: 1970年01月30日 (len: 17), cost 2.443µs
+2022/02/09 16:24:42 Generative art: Junas: /var/folders/c8/ft7qp47d6lj5579gmyflxbr80000gn/T/3399639142/24riPY84OtPHPyASifoc2LgC4l0.png (len: 98), cost 16.161366ms
+2022/02/09 16:24:44 Unsplash: /var/folders/c8/ft7qp47d6lj5579gmyflxbr80000gn/T/3399639142/24riPpWdmZ5nTBm0dFtKClUqwVA.png (len: 91), cost 2.479014432s
+2022/02/09 16:24:44 Image: 2.9KiB 1021952211_640x320.png (len: 29), cost 19.239017ms
 ```
----
 
 ## captcha
 
@@ -80,7 +84,6 @@ $ gg-rand
 
 ## hash functions
 
----
 ```sh
 🕙[2022-01-23 18:32:34.382] ❯ gg-rand -t hash -i '魔戒首部曲：魔戒现身.终极加长版.mkv' -c
 2022/01/23 18:34:44 Started
@@ -102,28 +105,25 @@ $ gg-rand
 2022/01/23 18:35:13 imo-hash: _6ClwBZqBTM3Q9wZJOFVLQ
 2022/01/23 18:35:13 Completed, cost 105.436µs
 ```
----
 
 ## Unqiue IDs
 
----
 ```sh
 $ gg-rand -t id       
-2022/01/25 11:42:18 oklog/ulid: 01FT7N7GJNSMR4XGY5Y28FSMXV(6B time(ms) + 8B random), cost 11.037µs
-2022/01/25 11:42:18 chilts/sid: 1RDPc~G3gQW-3cCKc7oL1Ki(8B time(ns) + 8B random), cost 2.165µs
-2022/01/25 11:42:18 kjk/betterguid: -MuEJw8K4aw0b06OPepv(8B time(ms) + 9B random ), cost 972ns
-2022/01/25 11:42:18 segmentio/ksuid: 24AnDORnNBgQbosh3rvAgYrY35c(4B time(s) + 16B random) (Prefered), cost 2.927µs
-2022/01/25 11:42:18 lithammer/shortuuid: DqRy7uJ6JPWTcRNKtxAM48(UUIDv4 or v5, encoded in a more compact way), cost 15.173µs
-2022/01/25 11:42:18 google/uuid v4: c1d089c8-06ee-40be-b8d2-0aa0f33ed197, cost 1.759µs
-2022/01/25 11:42:18 satori/go.uuid v4: 11daadfa-2b24-4764-89bf-678f6cb72f60(UUIDv4 from RFC 4112 for comparison), cost 3.396µs
-2022/01/25 11:42:18 Aidarkhanov Nano ID: dSo32Ns7tMFQq5UA85Nfj, cost 1.599µs
-2022/01/25 11:42:18 Matoous Nano ID: lW0jC8NOrw1x0FMhoSxp4, cost 1.573µs
-2022/01/25 11:42:18 Mongodb Object ID: 61ef719ac3666efed9c9f4f4 (Timestamp: 1643082138), cost 2.442µs
-2022/01/25 11:42:18 rs/xid Mongo Object ID: c7nn36nm20rvtmc6odc0 (Machine: 9hA3, Pid: 65241, Time: 2022-01-25 11:42:18 +0800 CST, Counter: 8831832)(4B time(s) + 3B machine id + 2B pid + 3Brandom), cost 6.704µs
-2022/01/25 11:42:18 BSON Object ID: 61ef719ac3666efed9000001, cost 9.629µs
-2022/01/25 11:42:18 Snowfake ID: 1485820295024480256 (Time: 1643082138197, Node: 1, Step:0)(~6B time(10ms) + 1B # + 2B machine id), cost 1.848µs
+2022/02/09 16:23:27 oklog/ulid: 01FVES938PC4CACQTBYK3ZFMSD (len: 26) [48位时间(ms)+64位随机], cost 14.525µs
+2022/02/09 16:23:27 chilts/sid: 1RI48kqobmd-3HU5_~expUy (len: 23) [32位时间(ns)+64位随机], cost 4.276µs
+2022/02/09 16:23:27 kjk/betterguid: -MvS_7oLnBCmeHRyA9FN (len: 20) [32位时间(ms)+72位随机], cost 1.02µs
+2022/02/09 16:23:27 segmentio/ksuid: 24riG9AXPwasx8N0b2SaYs2xWFX (len: 27) [32位时间(s)+128位随机，20字节，base62固定27位，优选], cost 4.868µs
+2022/02/09 16:23:27 lithammer/shortuuid: XXkfrGF5CtWbaoDfpw5ptH (len: 22) [UUIDv4 or v5, 紧凑编码], cost 13.349µs
+2022/02/09 16:23:27 google/uuid v4: 3c3c7a15-3c2f-4669-9488-c69c19e716c9 (len: 36) [128位随机], cost 2.114µs
+2022/02/09 16:23:27 satori/go.uuid v4: f5ef4dde-e9b2-4ef0-82ce-0b2c1a220c4b (len: 36) [UUIDv4 from RFC 4112 for comparison], cost 1.471µs
+2022/02/09 16:23:27 aidarkhanov/nanoid/v2: M8Dgq-Mpo58yowcPCHu4C (len: 21), cost 4.498µs
+2022/02/09 16:23:27 matoous/go-nanoid/v2: wW6yvGpMySMdca-TBgxVG (len: 21), cost 1.845µs
+2022/02/09 16:23:27 coolbed/mgo-oid Mongodb Object ID: 620379ffc3666e4dc567e0f1 (len: 24) [Timestamp: 1644395007], cost 1.207µs
+2022/02/09 16:23:27 rs/xid Mongo Object ID: c81njvvm20rkrh97sdh0 (len: 20) [32 位Time: 2022-02-09 16:23:27 +0800 CST, 24位Machine: 9hA3, Pid: 19909, , Counter: 2614114 4B time(s) + 3B machine id + 2B pid + 3Brandom], cost 6.067µs
+2022/02/09 16:23:27 BSON Object ID: 620379ffc3666e4dc5000001 (len: 24), cost 8.717µs
+2022/02/09 16:23:27 Snowfake ID: 1491326866961731584 (len: 19) [41位 Time: 1644395007254, 10位 Node: 1, 12位 Step:0], cost 6.335µs
 ```
----
 
 ## Resources
 

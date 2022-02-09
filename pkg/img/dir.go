@@ -66,7 +66,7 @@ var randInt = randx.Int()
 // GG_IMG_FORMAT=jpg/png to choose the format
 // GG_IMG_FILE_SIZE=10M to set image file size
 // GG_IMG_SIZE=640x320 to set the {width}x{height} of image
-func RandomImage(i int) string {
+func RandomImage(i int) interface{} {
 	imgFormat := parseImageFormat("GG_IMG_FORMAT")
 	width, height := parseImageSize("GG_IMG_SIZE")
 	fn := fmt.Sprintf("%d_%dx%d%s", randInt+i, width, height, imgFormat)
