@@ -75,9 +75,13 @@ $ gg-rand
 
 ## captcha
 
-`$ gg-rand -tag captcha -n 10` to generate 10 captcha images.
+`gg-rand -tag captcha -n 10` to generate 10 captcha images.
 
 ![image](https://user-images.githubusercontent.com/1940588/140700928-1fd794a7-21b2-4bda-81c0-b705bd632f88.png)
+
+`gg-rand -t formula -n 10`
+
+![image](https://user-images.githubusercontent.com/1940588/153322018-57f891c5-7456-454c-a195-fa15b136082c.png)
 
 ## images
 

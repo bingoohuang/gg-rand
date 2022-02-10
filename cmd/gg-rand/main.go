@@ -80,8 +80,16 @@ func main() {
 	p("JSON", func(int) interface{} { return string(jj.Rand()) })
 	p("String", func(int) interface{} { return str.RandStr(60) })
 
-	p("Captcha", func(int) interface{} {
+	p("Captcha DirectString", func(int) interface{} {
 		cp := c7a.NewCaptcha(150, 40, 5)
+		cp.SetMode(c7a.DirectString)
+		code, pImg := cp.OutPut()
+		return code + " " + img.ToPng(pImg, false)
+	})
+
+	p("Captcha SimpleMathFormula", func(int) interface{} {
+		cp := c7a.NewCaptcha(150, 40, 5)
+		cp.SetMode(c7a.SimpleMathFormula)
 		code, pImg := cp.OutPut()
 		return code + " " + img.ToPng(pImg, false)
 	})

@@ -2,7 +2,8 @@
 
 Go生成图形验证码，带噪点，干扰线，正弦干扰线；支持生成普通的字符串和简单的数学算术运算公式,
 
-source fork from [here](github.com/vcqr/captcha), font from [lifei6671/gocaptcha](https://github.com/lifei6671/gocaptcha/)
+source fork from [here](github.com/vcqr/captcha), font
+from [lifei6671/gocaptcha](https://github.com/lifei6671/gocaptcha/)
 
 ## Example
 
@@ -19,7 +20,7 @@ import (
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, _ *http.Request) {
 		cp := c7a.NewCaptcha(150, 40, 5)
-		// cp.SetMode(1) // 设置为数学公式
+		cp.SetMode(c7a.SimpleMathFormula) // 设置为数学公式
 		code, img := cp.OutPut()
 		// 备注：code 可以根据情况存储到session，并在使用时取出验证
 

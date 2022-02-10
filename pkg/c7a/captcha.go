@@ -23,23 +23,30 @@ const (
 	defaultDpi      = 72
 )
 
+type Mode int
+
+const (
+	DirectString      Mode = iota // 普通字符串
+	SimpleMathFormula             // 10以内简单数学公式
+)
+
 // Captcha 图形验证码 使用字体默认ttf格式
 // w 图片宽度, h图片高度，CodeLen验证码的个数
 // FontSize 字体大小, Dpi 清晰度
-// mode 验证模式 0：普通字符串，1：10以内简单数学公式
+// mode 验证模式
 type Captcha struct {
 	W, H, CodeLen int
 	FontSize      float64
 	Dpi           int
-	mode          int
+	mode          Mode
 }
 
-// 实例化验证码
+// NewCaptcha 实例化验证码
 func NewCaptcha(w, h, CodeLen int) *Captcha {
 	return &Captcha{W: w, H: h, CodeLen: CodeLen}
 }
 
-// 输出
+// OutPut 输出
 func (c *Captcha) OutPut() (string, *image.RGBA) {
 	img := c.initCanvas()
 	return c.doImage(img)
@@ -63,7 +70,7 @@ func (c *Captcha) RangeRand(min, max int64) int64 {
 	return min + result.Int64()
 }
 
-// 随机字符串
+// getRandCode 随机字符串
 func (c *Captcha) getRandCode() string {
 	if c.CodeLen <= 0 {
 		c.CodeLen = defaultLen
@@ -108,7 +115,7 @@ func (c *Captcha) getFormulaMixData() (string, []string) {
 	return strconv.Itoa(ret), []string{strNum1, opRet, strNum2, "=", "?"}
 }
 
-// 初始化画布
+// initCanvas 初始化画布
 func (c *Captcha) initCanvas() *image.RGBA {
 	dest := image.NewRGBA(image.Rect(0, 0, c.W, c.H))
 
@@ -127,7 +134,7 @@ func (c *Captcha) initCanvas() *image.RGBA {
 	return dest
 }
 
-// 处理图像
+// doImage 处理图像
 func (c *Captcha) doImage(dest *image.RGBA) (string, *image.RGBA) {
 	gc := draw2dimg.NewGraphicContext(dest)
 
@@ -264,7 +271,7 @@ func (c *Captcha) doSinLine(gc *draw2dimg.GraphicContext) {
 }
 
 // SetMode 设置模式
-func (c *Captcha) SetMode(mode int) { c.mode = mode }
+func (c *Captcha) SetMode(mode Mode) { c.mode = mode }
 
 // SetFontSize 设置字体大小
 func (c *Captcha) SetFontSize(fontSize float64) { c.FontSize = fontSize }
