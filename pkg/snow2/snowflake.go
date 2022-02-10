@@ -10,6 +10,17 @@ import (
 	"github.com/bingoohuang/gg/pkg/randx"
 )
 
+// Node12 每秒可以生成 256 个，可以有 4 个节点，可以使用 27.8 年，计算过程，见 cid_test.go
+// 97656251 = 100000000000 >> 10 + 1
+var Node12, _ = NewNode(WithEpochAdd(97656251), WithNodeBits(2), WithStepBits(8), WithTimeRound(time.Second))
+
+// NodeUint32 creates and returns a unique snowflake ID for uint32
+// CAUTION: only for low frequency usages，低频使用场景.
+// 每秒可以生成 2^3 = 8 个，可以有 1 个节点，可以使用 17 年
+// timestamp(29) + node(0) + step(3), 可用 2^29/60/60/24/365 ≈ 17 年
+// max uint32 is 4294967295 (0b11111111_11111111_11111111_11111111)
+var NodeUint32, _ = NewNode(WithNodeBits(0), WithStepBits(3), WithTimeRound(time.Second))
+
 const (
 	// NodeBits holds the number of bits to use for Node
 	// Remember, you have a total 22 bits to share between Node/Step
@@ -73,7 +84,7 @@ func NewNode(fns ...ConfigFn) (*Node, error) {
 	n := Node{Config: c}
 	n.node = c.NodeID
 	n.nodeMax = -1 ^ (-1 << c.NodeBits)
-	if n.node == 0 {
+	if n.node == 0 && n.nodeMax > 0 {
 		n.node = int64(randx.IntN(int(n.nodeMax)))
 	}
 
@@ -103,14 +114,13 @@ func Next() int64 {
 // - Make sure your system is keeping accurate system time
 // - Make sure you never have multiple nodes running with the same node ID
 func (n *Node) Next() int64 {
-	n.mu.Lock()
-	defer n.mu.Unlock()
-
 	elapsed := time.Since(n.start) / n.TimeRound
-	if elapsed < n.elapsed { // 处理时间回拨（时间回拨，不应回拨过多）
+	if elapsed < n.elapsed { // 处理时间回拨（每次时间回拨时，不应回拨过多，例如1次回拨1秒）
 		time.Sleep((n.elapsed - elapsed) * n.TimeRound)
 		elapsed = time.Since(n.start) / n.TimeRound
 	}
+
+	n.mu.Lock()
 
 	if elapsed == n.elapsed {
 		if n.step = (n.step + 1) & n.stepMask; n.step == 0 {
@@ -123,6 +133,8 @@ func (n *Node) Next() int64 {
 	}
 
 	n.elapsed = elapsed
+	n.mu.Unlock()
+
 	tt := (int64(elapsed) + n.EpochAdd) << n.timeShift
 	nn := n.node << n.nodeShift
 	return tt | nn | n.step

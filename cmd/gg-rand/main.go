@@ -14,10 +14,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/bingoohuang/gg-rand/pkg/cid"
 	"github.com/bingoohuang/gg-rand/pkg/snow2"
 
 	"github.com/aidarkhanov/nanoid/v2"
+	"github.com/bingoohuang/gg-rand/pkg/cid"
 	"github.com/spaolacci/murmur3"
 
 	"github.com/bingoohuang/gg-rand/pkg/gist"
@@ -104,10 +104,25 @@ func main() {
 		return base62.EncodeToString(base62.FormatUint(v))
 	})
 	p("max", func(int) interface{} {
-		return fmt.Sprintf("int64: %+v (len: %d), int32: %+v (len: %d), int16: %+v, float64: %v, float32:%+v",
-			math.MaxInt64, len(fmt.Sprintf("%+v", math.MaxInt64)),
-			math.MaxInt32, len(fmt.Sprintf("%+v", math.MaxInt32)),
-			math.MaxInt16, math.MaxFloat64, math.MaxFloat32)
+		return []string{
+			fmt.Sprintf("\n int64: %d (len: %d), uint64: %d (len: %d)",
+				math.MaxInt64, len(fmt.Sprintf("%+v", math.MaxInt64)),
+				uint64(math.MaxUint64), len(fmt.Sprintf("%+v", uint64(math.MaxUint64)))),
+
+			fmt.Sprintf("\n int32: %d (len: %d), uint32: %d (len: %d)",
+				math.MaxInt32, len(fmt.Sprintf("%+v", math.MaxInt32)),
+				math.MaxUint32, len(fmt.Sprintf("%+v", math.MaxUint32))),
+
+			fmt.Sprintf("\n int16: %d (len: %d), uint16: %d (len: %d)",
+				math.MaxInt16, len(fmt.Sprintf("%+v", math.MaxInt16)),
+				math.MaxUint16, len(fmt.Sprintf("%+v", math.MaxUint16))),
+
+			fmt.Sprintf("\n int8: %d (len: %d), uint8: %d (len: %d)",
+				math.MaxInt8, len(fmt.Sprintf("%+v", math.MaxInt8)),
+				math.MaxUint8, len(fmt.Sprintf("%+v", math.MaxUint8))),
+
+			fmt.Sprintf("\n float64: %f, float32 %f", math.MaxFloat64, math.MaxFloat32),
+		}
 	})
 	p("oklog/ulid", func(int) interface{} {
 		t := time.Now().UTC()
@@ -145,13 +160,13 @@ func main() {
 		return []string{v.String(), fmt.Sprintf("41位 Time: %d, 10位 Node: %d, 12位 Step:%d", v.Time(), v.Node(), v.Step())}
 	})
 
-	// t, _ := time.Parse("20060102", "20200603")
-	// 每秒可以生成 256 个，可以有 4 个节点，可以使用 27.8 年，计算过程，见 cid_test.go
-	n2, _ := snow2.NewNode( /*snow2.WithEpoch(t),*/ snow2.WithEpochAdd(97656251),
-		snow2.WithNodeBits(2), snow2.WithStepBits(8), snow2.WithTimeRound(time.Second))
-
-	p("Random ID with fix length 12", func(int) interface{} { return fmt.Sprintf("%d", cid.Cid12()) })
-	p("customized snowflake ID with length 12", func(int) interface{} { return fmt.Sprintf("%d", n2.Next()) })
+	p("Random ID with fixed length 12", func(int) interface{} { return fmt.Sprintf("%d", cid.Cid12()) })
+	p("customized snowflake ID with fixed length 12", func(int) interface{} {
+		return fmt.Sprintf("%d", snow2.Node12.Next())
+	})
+	p("customized snowflake ID with uint32", func(int) interface{} {
+		return fmt.Sprintf("%d", snow2.NodeUint32.Next())
+	})
 
 	p("姓名", wrap(chinaid.Name))
 	p("性别", wrap(chinaid.Sex))

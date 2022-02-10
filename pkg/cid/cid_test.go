@@ -43,6 +43,8 @@ func TestCid12(t *testing.T) {
 }
 
 func TestFindAtLeastBits(t *testing.T) {
+	t.Log(((999999999999 >> 12) - (100000000000 >> 12)) / 60 / 6 / 24 / 365)
+	t.Log(FormatBinaryUint64(4294967295))
 	// (976562500-97656251)/60/60/24/365 = 27.8年
 	// min: 97656251 max: 976562500 diff: 878906249 years: 27
 	// min12: 100000000000 BINARY: 0b00010111_01001000_01110110_11101000_00000000
@@ -52,15 +54,15 @@ func TestFindAtLeastBits(t *testing.T) {
 	min, max, diff, years := YearsCanUse(12, 10, 365*24*(time.Hour/time.Second))
 	t.Log("min:", min, "max:", max, "diff:", diff, "years:", years)
 
-	t.Log("min12:", min12, "BINARY:", FormatBig(min12))
-	t.Log("max12:", max12, "BINARY:", FormatBig(max12))
+	t.Log("min12:", min12, "BINARY:", FormatBinaryBig(min12))
+	t.Log("max12:", max12, "BINARY:", FormatBinaryBig(max12))
 	// t.Log(0b0001011101010) // 746, (2^13-746)/365 = 20.4 能用20.4年，每天可用ID数是 2^27 = 134,217,728，13亿
 
 	//  min20: 10000000000000000000 BINARY: 0b10001010_11000111_00100011_00000100_10001001_11101000_00000000_00000000
 	//  max20: 99999999999999999999 BINARY: 0b00000101_01101011_11000111_01011110_00101101_01100011_00001111_11111111_11111111
 	min20, max20 := MinNum(20), MaxNum(20)
-	t.Log("min20:", min20, "BINARY:", FormatBig(min20))
-	t.Log("max20:", max20, "BINARY:", FormatBig(max20))
+	t.Log("min20:", min20, "BINARY:", FormatBinaryBig(min20))
+	t.Log("max20:", max20, "BINARY:", FormatBinaryBig(max20))
 }
 
 func MinNum(fixedLength int) (b *big.Int) {
@@ -95,14 +97,20 @@ func MaxNum(fixedLength int) (b *big.Int) {
 func TestFormatBig(t *testing.T) {
 	min12, max12 := MinNum(12), MaxNum(12)
 	t.Log(fmt.Sprintf("%b", min12))
-	t.Log(FormatBig(min12))
+	t.Log(FormatBinaryBig(min12))
 	t.Log(fmt.Sprintf("%b", max12))
-	t.Log(FormatBig(max12))
+	t.Log(FormatBinaryBig(max12))
 }
 
-func FormatBig(b *big.Int) string {
-	str := fmt.Sprintf("%b", b)
+func FormatBinaryBig(b *big.Int) string {
+	return FormatBinary(fmt.Sprintf("%b", b))
+}
 
+func FormatBinaryUint64(b uint64) string {
+	return FormatBinaryBig(new(big.Int).SetUint64(b))
+}
+
+func FormatBinary(str string) string {
 	strLength := len(str)
 	n := int(math.Ceil(float64(strLength) / float64(8)))
 
