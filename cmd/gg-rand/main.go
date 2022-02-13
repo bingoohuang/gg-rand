@@ -14,6 +14,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/bingoohuang/gg-rand/pkg/ksid"
+
 	"github.com/bingoohuang/gg-rand/pkg/snow2"
 
 	"github.com/aidarkhanov/nanoid/v2"
@@ -134,6 +136,14 @@ func main() {
 	p("kjk/betterguid", func(int) interface{} { return []string{betterguid.New(), "32位时间(ms)+72位随机"} })
 	p("segmentio/ksuid", func(int) interface{} {
 		return []string{ksuid.New().String(), "32位时间(s)+128位随机，20字节，base62固定27位，优选"}
+	})
+
+	p("customized/ksuid base64", func(int) interface{} {
+		t := time.Now()
+		a := ksid.New(ksid.WithValue(ksid.Nil), ksid.WithTime(t)).String()
+		b := ksid.New(ksid.WithTime(t)).String()
+		c := ksid.New(ksid.WithValue(ksid.Max), ksid.WithTime(t)).String()
+		return []string{a, b, c, fmt.Sprintf("a<=b: %v", a <= b), fmt.Sprintf("b<=c: %v", b <= c)}
 	})
 	p("lithammer/shortuuid", func(int) interface{} { return []string{shortuuid.New(), "UUIDv4 or v5, 紧凑编码"} })
 	p("google/uuid v4", func(int) interface{} { return []string{uuid.New().String(), "128位随机"} })

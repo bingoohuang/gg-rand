@@ -1,6 +1,6 @@
 module github.com/bingoohuang/gg-rand
 
-go 1.18
+go 1.17
 
 require (
 	github.com/Pallinder/go-randomdata v1.2.0
