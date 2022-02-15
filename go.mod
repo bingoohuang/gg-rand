@@ -7,6 +7,7 @@ require (
 	github.com/RoaringBitmap/roaring v0.9.4
 	github.com/aidarkhanov/nanoid/v2 v2.0.5
 	github.com/bingoohuang/gg v0.0.0-20220209061112-9cea4c89abc5
+	github.com/bingoohuang/gou v0.0.0-20210727012756-4873089fc9df
 	github.com/bingoohuang/jj v0.0.0-20211209023116-c83e26365b20
 	github.com/brianvoe/gofakeit/v6 v6.14.5
 	github.com/bwmarrin/snowflake v0.3.0
@@ -23,6 +24,7 @@ require (
 	github.com/lazybeaver/xorshift v0.0.0-20170702203709-ce511d4823dd
 	github.com/lithammer/shortuuid v3.0.0+incompatible
 	github.com/llgcode/draw2d v0.0.0-20210904075650-80aa0a2a901d
+	github.com/manifoldco/promptui v0.9.0
 	github.com/matoous/go-nanoid/v2 v2.0.0
 	github.com/oklog/ulid v1.3.1
 	github.com/rs/xid v1.3.0
@@ -36,13 +38,50 @@ require (
 )
 
 require (
+	github.com/asaskevich/govalidator v0.0.0-20190424111038-f61b66f89f4a // indirect
+	github.com/averagesecurityguy/random v0.0.0-20180326012618-37cce341d2af // indirect
+	github.com/bingoohuang/gor v0.0.0-20200628053500-ec6cb95c0e1b // indirect
+	github.com/bingoohuang/strcase v0.0.0-20200312105414-ac2c85cfc85d // indirect
 	github.com/bits-and-blooms/bitset v1.2.0 // indirect
+	github.com/chzyer/readline v0.0.0-20180603132655-2972be24d48e // indirect
 	github.com/fogleman/gg v1.3.0 // indirect
+	github.com/fsnotify/fsnotify v1.4.9 // indirect
+	github.com/go-openapi/errors v0.19.2 // indirect
+	github.com/go-openapi/strfmt v0.19.3 // indirect
+	github.com/go-stack/stack v1.8.0 // indirect
+	github.com/hashicorp/errwrap v1.0.0 // indirect
+	github.com/hashicorp/go-multierror v1.1.1 // indirect
+	github.com/hashicorp/hcl v1.0.0 // indirect
+	github.com/howeyc/gopass v0.0.0-20190910152052-7cb4b85ec19c // indirect
+	github.com/jedib0t/go-pretty v4.3.0+incompatible // indirect
+	github.com/json-iterator/go v1.1.11 // indirect
 	github.com/klauspost/cpuid/v2 v2.0.9 // indirect
+	github.com/magiconair/properties v1.8.5 // indirect
+	github.com/mattn/go-runewidth v0.0.10 // indirect
+	github.com/mitchellh/go-homedir v1.1.0 // indirect
+	github.com/mitchellh/mapstructure v1.4.1 // indirect
+	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
+	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/mschoch/smat v0.2.0 // indirect
 	github.com/pbnjay/pixfont v0.0.0-20200714042608-33b744692567 // indirect
+	github.com/pelletier/go-toml v1.9.3 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/rivo/uniseg v0.1.0 // indirect
+	github.com/sirupsen/logrus v1.8.1 // indirect
+	github.com/spf13/afero v1.6.0 // indirect
+	github.com/spf13/cast v1.3.1 // indirect
+	github.com/spf13/jwalterweatherman v1.1.0 // indirect
+	github.com/spf13/pflag v1.0.5 // indirect
+	github.com/spf13/viper v1.8.1 // indirect
+	github.com/subosito/gotenv v1.2.0 // indirect
+	github.com/thoas/go-funk v0.9.0 // indirect
 	github.com/twmb/murmur3 v1.1.5 // indirect
+	go.mongodb.org/mongo-driver v1.0.3 // indirect
+	golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2 // indirect
 	golang.org/x/image v0.0.0-20210220032944-ac19c3e999fb // indirect
 	golang.org/x/sys v0.0.0-20210630005230-0f9fa26af87c // indirect
+	golang.org/x/term v0.0.0-20201126162022-7de9c90e9dd1 // indirect
+	golang.org/x/text v0.3.5 // indirect
+	gopkg.in/ini.v1 v1.62.0 // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

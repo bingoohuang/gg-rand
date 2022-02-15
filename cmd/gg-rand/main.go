@@ -5,6 +5,7 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -14,11 +15,16 @@ import (
 	"strings"
 	"time"
 
+	"github.com/aidarkhanov/nanoid/v2"
+	"github.com/bingoohuang/gg/pkg/ss"
+	"github.com/bingoohuang/gou/pbe"
+	"github.com/brianvoe/gofakeit/v6"
+	"github.com/manifoldco/promptui"
+
 	"github.com/bingoohuang/gg-rand/pkg/ksid"
 
 	"github.com/bingoohuang/gg-rand/pkg/snow2"
 
-	"github.com/aidarkhanov/nanoid/v2"
 	"github.com/bingoohuang/gg-rand/pkg/cid"
 	"github.com/spaolacci/murmur3"
 
@@ -38,7 +44,6 @@ import (
 	"github.com/bingoohuang/gg/pkg/chinaid"
 	"github.com/bingoohuang/gg/pkg/fla9"
 	"github.com/bingoohuang/jj"
-	"github.com/brianvoe/gofakeit/v6"
 	"github.com/chilts/sid"
 	"github.com/google/uuid"
 	"github.com/jxskiss/base62"
@@ -52,8 +57,36 @@ import (
 )
 
 func main() {
-	p, isHelpTag := createPrinter()
+	p := createPrinter()
 
+	for p != nil {
+		defineRandoms(p)
+		p = prompt()
+	}
+}
+
+func prompt() func(name string, f func(int) interface{}) {
+	if tag == "HELP" {
+		prompt := promptui.Select{
+			Label: "Select One of the Randoms",
+			Items: allTags,
+			Searcher: func(input string, index int) bool {
+				return ss.ContainsFold(allTags[index], input)
+			},
+		}
+
+		_, result, err := prompt.Run()
+		if err != nil {
+			fmt.Printf("Prompt failed %v\n", err)
+			return nil
+		}
+
+		return printRandom(func(name string) bool { return name == result })
+	}
+	return nil
+}
+
+func defineRandoms(p func(name string, f func(int) interface{})) {
 	p("blake3hash-zeebo", createFileFunc(hash.Blake3Zeebo))
 	p("blake3hash-luke", createFileFunc(hash.Blake3Luke))
 	p("xxhash", createFileFunc(hash.XXH64File))
@@ -193,9 +226,82 @@ func main() {
 	p("Unsplash", unsplash.Random)
 	p("Image", img.RandomImage)
 
-	if isHelpTag {
-		fmt.Println()
+	p("PBE Encrypt", pbeEncrptDealer)
+	p("PBE Decrypt", pbeDecrptDealer)
+}
+
+func pbeDecrptDealer(int) interface{} {
+	validate := func(input string) error {
+		if len(input) < 6 {
+			return errors.New("password must have more than 6 characters")
+		}
+		return nil
 	}
+
+	plain := promptui.Prompt{
+		Label:    "PBE format",
+		Validate: validate,
+		Default:  pwe.PwGen(pwe.FormatComplex, pwe.Strength96),
+	}
+
+	plainResult, err := plain.Run()
+	if err != nil {
+		return err.Error()
+	}
+
+	passwd := promptui.Prompt{
+		Label:    "Password",
+		Validate: validate,
+		Mask:     '*',
+	}
+	passwdResult, err := passwd.Run()
+	if err != nil {
+		return err.Error()
+	}
+
+	result, err := pbe.Decrypt(plainResult, passwdResult, 19)
+	if err != nil {
+		return err.Error()
+	}
+
+	return []string{result, plainResult}
+}
+
+func pbeEncrptDealer(int) interface{} {
+	validate := func(input string) error {
+		if len(input) < 6 {
+			return errors.New("password must have more than 6 characters")
+		}
+		return nil
+	}
+
+	plain := promptui.Prompt{
+		Label:    "Plain",
+		Validate: validate,
+		Default:  pwe.PwGen(pwe.FormatComplex, pwe.Strength96),
+	}
+
+	plainResult, err := plain.Run()
+	if err != nil {
+		return err.Error()
+	}
+
+	passwd := promptui.Prompt{
+		Label:    "Password",
+		Validate: validate,
+		Mask:     '*',
+	}
+	passwdResult, err := passwd.Run()
+	if err != nil {
+		return err.Error()
+	}
+
+	result, err := pbe.Encrypt(plainResult, passwdResult, 19)
+	if err != nil {
+		return err.Error()
+	}
+
+	return []string{result, plainResult}
 }
 
 func randToken() []byte {
@@ -210,20 +316,19 @@ func PickStr(s string, _ interface{}) string {
 
 func wrap(f func() string) func(int) interface{} { return func(int) interface{} { return f() } }
 
-func createPrinter() (func(name string, f func(int) interface{}), bool) {
+var allTags []string
+
+func createPrinter() func(name string, f func(int) interface{}) {
 	tag = strings.ToUpper(tag)
 
+	if tag == "" {
+		tag = "HELP"
+	}
+
 	if tag == "HELP" {
-		fmt.Print("Available tags:")
-		firstTag := true
 		return func(name string, f func(int) interface{}) {
-			if firstTag {
-				firstTag = false
-				fmt.Print(" " + name)
-			} else {
-				fmt.Print(", " + name)
-			}
-		}, true
+			allTags = append(allTags, name)
+		}
 	}
 
 	okFn := func(string) bool { return true }
@@ -231,6 +336,10 @@ func createPrinter() (func(name string, f func(int) interface{}), bool) {
 		okFn = func(name string) bool { return strings.Contains(strings.ToUpper(name), tag) }
 	}
 
+	return printRandom(okFn)
+}
+
+func printRandom(okFn func(string) bool) func(name string, f func(int) interface{}) {
 	return func(name string, f func(int) interface{}) {
 		if okFn(name) {
 			start0 := time.Now()
@@ -249,7 +358,7 @@ func createPrinter() (func(name string, f func(int) interface{}), bool) {
 				log.Printf("Completed, cost %s", time.Since(start0))
 			}
 		}
-	}, false
+	}
 }
 
 func arts(p1 func(name string, f func(int) interface{})) {
