@@ -2,8 +2,10 @@ package cid
 
 import (
 	"fmt"
+	"github.com/stretchr/testify/assert"
 	"math"
 	"math/big"
+	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -125,4 +127,33 @@ func FormatBinary(str string) string {
 	}
 
 	return "0b" + strings.Join(sn, "_")
+}
+
+func ToBinary(s []byte) string {
+	res := ""
+	for _, c := range s {
+		res = fmt.Sprintf("%s%.8b_", res, c)
+	}
+
+	if len(s) > 0 {
+		return res[:len(res)-1]
+	}
+	return res
+}
+
+func ParseBinary(s string) (b []byte) {
+	for s != "" {
+		if i, err := strconv.ParseInt(s[:8], 2, 64); err == nil {
+			b = append(b, byte(i))
+		}
+		s = strings.Trim(s[8:], "_ ")
+	}
+	return b
+}
+
+func TestBinary(t *testing.T) {
+	assert.Equal(t, "00000001", ToBinary([]byte{1}))
+	assert.Equal(t, "00000001_00000010", ToBinary([]byte{1, 2}))
+	assert.Equal(t, []byte{1}, ParseBinary("00000001"))
+	assert.Equal(t, []byte{1, 2}, ParseBinary("00000001 00000010"))
 }
