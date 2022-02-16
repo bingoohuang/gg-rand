@@ -15,6 +15,8 @@ import (
 	"strings"
 	"time"
 
+	ulid "github.com/oklog/ulid/v2"
+
 	"github.com/aidarkhanov/nanoid/v2"
 	"github.com/bingoohuang/gg/pkg/ss"
 	"github.com/bingoohuang/gou/pbe"
@@ -50,7 +52,6 @@ import (
 	"github.com/kjk/betterguid"
 	pwe "github.com/kuking/go-pwentropy"
 	"github.com/lithammer/shortuuid"
-	"github.com/oklog/ulid"
 	guuid "github.com/satori/go.uuid"
 	"github.com/segmentio/ksuid"
 	"github.com/sony/sonyflake"
@@ -160,10 +161,8 @@ func defineRandoms(p func(name string, f func(int) interface{})) {
 		}
 	})
 	p("oklog/ulid", func(int) interface{} {
-		t := time.Now().UTC()
-		entropy := rand.New(rand.NewSource(t.UnixNano()))
-		v := ulid.MustNew(ulid.Timestamp(t), entropy)
-		return []string{v.String(), "48位时间(ms)+64位随机"}
+		v := ulid.MustNew(ulid.Now(), crand.Reader)
+		return []string{v.String(), "48位时间(ms)+80位随机"}
 	})
 	p("chilts/sid", func(int) interface{} { return []string{sid.IdBase64(), "32位时间(ns)+64位随机"} })
 	p("kjk/betterguid", func(int) interface{} { return []string{betterguid.New(), "32位时间(ms)+72位随机"} })
