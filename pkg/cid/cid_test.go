@@ -2,6 +2,7 @@ package cid
 
 import (
 	"fmt"
+	"github.com/stretchr/testify/assert"
 	"math"
 	"math/big"
 	"strconv"
