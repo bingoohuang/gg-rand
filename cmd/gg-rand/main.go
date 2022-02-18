@@ -15,7 +15,7 @@ import (
 	"strings"
 	"time"
 
-	ulid "github.com/oklog/ulid/v2"
+	"github.com/oklog/ulid/v2"
 
 	"github.com/aidarkhanov/nanoid/v2"
 	"github.com/bingoohuang/gg/pkg/ss"
@@ -67,24 +67,25 @@ func main() {
 }
 
 func prompt() func(name string, f func(int) interface{}) {
-	if tag == "HELP" {
-		prompt := promptui.Select{
-			Label: "Select One of the Randoms",
-			Items: allTags,
-			Searcher: func(input string, index int) bool {
-				return ss.ContainsFold(allTags[index], input)
-			},
-		}
-
-		_, result, err := prompt.Run()
-		if err != nil {
-			fmt.Printf("Prompt failed %v\n", err)
-			return nil
-		}
-
-		return printRandom(func(name string) bool { return name == result })
+	if tag != "" {
+		return nil
 	}
-	return nil
+
+	prompt := promptui.Select{
+		Label: "Select One of the Randoms",
+		Items: allTags,
+		Searcher: func(input string, index int) bool {
+			return ss.ContainsFold(allTags[index], input)
+		},
+	}
+
+	_, result, err := prompt.Run()
+	if err != nil {
+		fmt.Printf("Prompt failed %v\n", err)
+		return nil
+	}
+
+	return printRandom(func(name string) bool { return name == result })
 }
 
 func defineRandoms(p func(name string, f func(int) interface{})) {
@@ -230,6 +231,10 @@ func defineRandoms(p func(name string, f func(int) interface{})) {
 }
 
 func pbeDecrptDealer(int) interface{} {
+	if tag == "ALL" {
+		return nil
+	}
+
 	validate := func(input string) error {
 		if len(input) < 6 {
 			return errors.New("password must have more than 6 characters")
@@ -267,6 +272,10 @@ func pbeDecrptDealer(int) interface{} {
 }
 
 func pbeEncrptDealer(int) interface{} {
+	if tag == "ALL" {
+		return nil
+	}
+
 	validate := func(input string) error {
 		if len(input) < 6 {
 			return errors.New("password must have more than 6 characters")
@@ -319,19 +328,17 @@ var allTags []string
 
 func createPrinter() func(name string, f func(int) interface{}) {
 	tag = strings.ToUpper(tag)
-
-	if tag == "" {
-		tag = "HELP"
-	}
-
-	if tag == "HELP" {
+	if tag == "" || tag == "HELP" {
 		return func(name string, f func(int) interface{}) {
 			allTags = append(allTags, name)
 		}
 	}
 
 	okFn := func(string) bool { return true }
-	if tag != "" {
+
+	if tag == "ALL" {
+		okFn = func(string) bool { return true }
+	} else if tag != "" {
 		okFn = func(name string) bool { return strings.Contains(strings.ToUpper(name), tag) }
 	}
 
@@ -383,7 +390,7 @@ const usage = `
   -n       int      How many random values to generate. (default 1)
   -len,l   int      Length.
   -cost,c  bool     Time costed.
-  -tag     string   Which type to generate, like uuid, art, id, email and etc. (empty for all, help to print all available full tags)
+  -tag     string   Which type to generate, like uuid, art, id, email and etc. (empty for prompt, all or all)
 `
 
 func init() {
