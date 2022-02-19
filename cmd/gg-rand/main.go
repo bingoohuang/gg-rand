@@ -163,7 +163,7 @@ func defineRandoms(p func(name string, f func(int) interface{})) {
 	})
 	p("oklog/ulid", func(int) interface{} {
 		v := ulid.MustNew(ulid.Now(), crand.Reader)
-		return []string{v.String(), "48位时间(ms)+80位随机"}
+		return []string{v.String(), "base32固定26位，48位时间(ms)+80位随机"}
 	})
 	p("chilts/sid", func(int) interface{} { return []string{sid.IdBase64(), "32位时间(ns)+64位随机"} })
 	p("kjk/betterguid", func(int) interface{} { return []string{betterguid.New(), "32位时间(ms)+72位随机"} })
