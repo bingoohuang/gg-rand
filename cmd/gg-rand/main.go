@@ -314,8 +314,12 @@ func pbeEncrptDealer(int) interface{} {
 
 func randToken() []byte {
 	token := make([]byte, argLen)
-	rand.Read(token)
-	return token
+	n, err := crand.Read(token)
+	if err != nil {
+		panic(err)
+	}
+
+	return token[:n]
 }
 
 func PickStr(s string, _ interface{}) string {
