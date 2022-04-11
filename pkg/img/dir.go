@@ -28,6 +28,15 @@ func init() {
 	Dir = d
 }
 
+func ToPngBytes(img image.Image) []byte {
+	var b bytes.Buffer
+	if err := png.Encode(&b, img); err != nil {
+		log.Panicf("failed to png.Encode, error: %v", err)
+	}
+
+	return b.Bytes()
+}
+
 // ToPng saves the image to local with PNG format.
 func ToPng(img image.Image, appendBase64 bool) string {
 	file := filepath.Join(Dir, uid.New().String()+".png")
