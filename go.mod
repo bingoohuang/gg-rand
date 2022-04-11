@@ -1,15 +1,15 @@
 module github.com/bingoohuang/gg-rand
 
-go 1.17
+go 1.18
 
 require (
 	github.com/Pallinder/go-randomdata v1.2.0
 	github.com/RoaringBitmap/roaring v0.9.4
 	github.com/aidarkhanov/nanoid/v2 v2.0.5
-	github.com/bingoohuang/gg v0.0.0-20220209061112-9cea4c89abc5
+	github.com/bingoohuang/gg v0.0.0-20220411014818-2bf1ced5e1b3
 	github.com/bingoohuang/gou v0.0.0-20210727012756-4873089fc9df
-	github.com/bingoohuang/jj v0.0.0-20211209023116-c83e26365b20
-	github.com/brianvoe/gofakeit/v6 v6.14.5
+	github.com/bingoohuang/jj v0.0.0-20220409132014-41186cabb65d
+	github.com/brianvoe/gofakeit/v6 v6.15.0
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/cespare/xxhash/v2 v2.1.2
 	github.com/chilts/sid v0.0.0-20190607042430-660e94789ec9
@@ -27,14 +27,14 @@ require (
 	github.com/manifoldco/promptui v0.9.0
 	github.com/matoous/go-nanoid/v2 v2.0.0
 	github.com/oklog/ulid/v2 v2.0.2
-	github.com/rs/xid v1.3.0
+	github.com/rs/xid v1.4.0
 	github.com/satori/go.uuid v1.2.0
 	github.com/segmentio/ksuid v1.0.4
 	github.com/sony/sonyflake v1.0.0
 	github.com/spaolacci/murmur3 v1.1.0
-	github.com/stretchr/testify v1.7.0
+	github.com/stretchr/testify v1.7.1
 	github.com/vpxyz/xorshift v1.2.2
-	github.com/zeebo/blake3 v0.2.2
+	github.com/zeebo/blake3 v0.2.3
 	lukechampine.com/blake3 v1.1.7
 )
 
@@ -56,8 +56,8 @@ require (
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/howeyc/gopass v0.0.0-20190910152052-7cb4b85ec19c // indirect
 	github.com/jedib0t/go-pretty v4.3.0+incompatible // indirect
-	github.com/json-iterator/go v1.1.11 // indirect
-	github.com/klauspost/cpuid/v2 v2.0.9 // indirect
+	github.com/json-iterator/go v1.1.12 // indirect
+	github.com/klauspost/cpuid/v2 v2.0.12 // indirect
 	github.com/magiconair/properties v1.8.5 // indirect
 	github.com/mattn/go-runewidth v0.0.10 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
@@ -84,7 +84,7 @@ require (
 	golang.org/x/image v0.0.0-20210220032944-ac19c3e999fb // indirect
 	golang.org/x/sys v0.0.0-20210630005230-0f9fa26af87c // indirect
 	golang.org/x/term v0.0.0-20201126162022-7de9c90e9dd1 // indirect
-	golang.org/x/text v0.3.5 // indirect
+	golang.org/x/text v0.3.6 // indirect
 	gopkg.in/ini.v1 v1.62.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
