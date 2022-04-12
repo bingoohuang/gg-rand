@@ -7,6 +7,7 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
+	"github.com/bingoohuang/gg-rand/pkg/genpw"
 	"io"
 	"log"
 	"math"
@@ -109,6 +110,9 @@ func defineRandoms(p func(name string, f func(int) interface{})) {
 	p("IP v4", wrap(rd.IpV4Address))
 	p("IP v6", wrap(rd.IpV6Address))
 	p("UserAgent", wrap(rd.UserAgentString))
+	p("Pwd", func(int) interface{} {
+		return string(genpw.Gen(genpw.WithMinCountOfNumbers(1), genpw.WithMinCountOfSymbols(1)))
+	})
 	p("Password", func(int) interface{} { return pwe.PwGen(pwe.FormatComplex, pwe.Strength96) })
 	p("Password Easy", func(int) interface{} { return pwe.PwGen(pwe.FormatEasy, pwe.Strength96) })
 	p("Numbers", func(int) interface{} { return gofakeit.DigitN(60) })
