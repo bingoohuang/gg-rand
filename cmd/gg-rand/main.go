@@ -362,6 +362,11 @@ func printRandom(okFn func(string) bool) func(name string, f func(int) interface
 			for i := 0; i < num; i++ {
 				start := time.Now()
 				v := f(i)
+				if !extra {
+					fmt.Printf("%v\n", v)
+					continue
+				}
+
 				if v2, ok := v.([]string); ok && len(v2) > 0 {
 					log.Printf("%s: %s (len: %d) %s, cost %s", name, v2[0], len(v2[0]), v2[1:], time.Since(start))
 				} else if v1, ok := v.(string); ok {
@@ -370,7 +375,7 @@ func printRandom(okFn func(string) bool) func(name string, f func(int) interface
 					log.Printf("%s: %v , cost %s", name, v, time.Since(start))
 				}
 			}
-			if cost && num > 1 {
+			if cost && num > 1 && extra {
 				log.Printf("Completed, cost %s", time.Since(start0))
 			}
 		}
@@ -392,12 +397,14 @@ var (
 	argLen int
 	dir    string
 	cost   bool
+	extra  bool
 )
 
 const usage = `
   -dir,d   string   In which dir to generate random files. (default temp dir)
   -input,i string   Input file name. 
   -n       int      How many random values to generate. (default 1)
+  -extra   bool     Print extra information.
   -len,l   int      Length.
   -cost,c  bool     Time costed.
   -tag     string   Which type to generate, like uuid, art, id, email and etc. (empty for prompt, all or all)
@@ -409,6 +416,7 @@ func init() {
 	}
 	fla9.StringVar(&dir, "dir,d", "", "")
 	fla9.BoolVar(&cost, "cost,c", false, "")
+	fla9.BoolVar(&extra, "extra", false, "")
 	fla9.StringVar(&tag, "tag,t", "", "")
 	fla9.StringVar(&input, "input,i", "", "")
 	fla9.IntVar(&num, "n", 1, "")
