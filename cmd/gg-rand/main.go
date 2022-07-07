@@ -7,7 +7,6 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
-	"github.com/bingoohuang/gg-rand/pkg/genpw"
 	"io"
 	"log"
 	"math"
@@ -16,12 +15,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/oklog/ulid/v2"
+	"github.com/bingoohuang/gg-rand/pkg/genpw"
+	"github.com/oklog/ulid"
 
-	"github.com/aidarkhanov/nanoid/v2"
 	"github.com/bingoohuang/gg/pkg/ss"
 	"github.com/bingoohuang/gou/pbe"
-	"github.com/brianvoe/gofakeit/v6"
 	"github.com/manifoldco/promptui"
 
 	"github.com/bingoohuang/gg-rand/pkg/ksid"
@@ -57,6 +55,10 @@ import (
 	"github.com/segmentio/ksuid"
 	"github.com/sony/sonyflake"
 )
+
+func init() {
+	log.SetOutput(os.Stdout)
+}
 
 func main() {
 	p := createPrinter()
