@@ -4,12 +4,12 @@ go 1.18
 
 require (
 	github.com/Pallinder/go-randomdata v1.2.0
-	github.com/RoaringBitmap/roaring v0.9.4
+	github.com/RoaringBitmap/roaring v1.2.1
 	github.com/aidarkhanov/nanoid/v2 v2.0.5
-	github.com/bingoohuang/gg v0.0.0-20220411014818-2bf1ced5e1b3
+	github.com/bingoohuang/gg v0.0.0-20220628023444-49f3ff757b7b
 	github.com/bingoohuang/gou v0.0.0-20210727012756-4873089fc9df
-	github.com/bingoohuang/jj v0.0.0-20220409132014-41186cabb65d
-	github.com/brianvoe/gofakeit/v6 v6.15.0
+	github.com/bingoohuang/jj v0.0.0-20220707083549-b1231258957c
+	github.com/brianvoe/gofakeit/v6 v6.17.0
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/cespare/xxhash/v2 v2.1.2
 	github.com/chilts/sid v0.0.0-20190607042430-660e94789ec9
@@ -26,7 +26,7 @@ require (
 	github.com/llgcode/draw2d v0.0.0-20210904075650-80aa0a2a901d
 	github.com/manifoldco/promptui v0.9.0
 	github.com/matoous/go-nanoid/v2 v2.0.0
-	github.com/oklog/ulid/v2 v2.0.2
+	github.com/oklog/ulid v1.3.1
 	github.com/rs/xid v1.4.0
 	github.com/satori/go.uuid v1.2.0
 	github.com/segmentio/ksuid v1.0.4
@@ -46,6 +46,7 @@ require (
 	github.com/bits-and-blooms/bitset v1.2.0 // indirect
 	github.com/chzyer/readline v0.0.0-20180603132655-2972be24d48e // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/dustin/go-humanize v1.0.0 // indirect
 	github.com/fogleman/gg v1.3.0 // indirect
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/go-openapi/errors v0.19.2 // indirect
@@ -65,6 +66,7 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/mschoch/smat v0.2.0 // indirect
+	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	github.com/pbnjay/pixfont v0.0.0-20200714042608-33b744692567 // indirect
 	github.com/pelletier/go-toml v1.9.3 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
@@ -87,5 +89,5 @@ require (
 	golang.org/x/text v0.3.6 // indirect
 	gopkg.in/ini.v1 v1.62.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
+	gopkg.in/yaml.v3 v3.0.0 // indirect
 )

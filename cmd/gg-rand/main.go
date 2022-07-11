@@ -26,34 +26,34 @@ import (
 
 	"github.com/bingoohuang/gg-rand/pkg/snow2"
 
-	"github.com/bingoohuang/gg-rand/pkg/cid"
-	"github.com/spaolacci/murmur3"
-
-	"github.com/bingoohuang/gg-rand/pkg/gist"
-	"github.com/bingoohuang/gg-rand/pkg/hash"
-	"github.com/bwmarrin/snowflake"
-	oid "github.com/coolbed/mgo-oid"
-	gonanoid "github.com/matoous/go-nanoid/v2"
-	"github.com/rs/xid"
-
 	rd "github.com/Pallinder/go-randomdata"
+	nanoid "github.com/aidarkhanov/nanoid/v2"
 	"github.com/bingoohuang/gg-rand/pkg/art"
 	"github.com/bingoohuang/gg-rand/pkg/c7a"
+	"github.com/bingoohuang/gg-rand/pkg/cid"
+	"github.com/bingoohuang/gg-rand/pkg/gist"
+	"github.com/bingoohuang/gg-rand/pkg/hash"
 	"github.com/bingoohuang/gg-rand/pkg/img"
 	"github.com/bingoohuang/gg-rand/pkg/str"
 	"github.com/bingoohuang/gg-rand/pkg/unsplash"
 	"github.com/bingoohuang/gg/pkg/chinaid"
 	"github.com/bingoohuang/gg/pkg/fla9"
 	"github.com/bingoohuang/jj"
+	gofakeit "github.com/brianvoe/gofakeit/v6"
+	"github.com/bwmarrin/snowflake"
 	"github.com/chilts/sid"
+	oid "github.com/coolbed/mgo-oid"
 	"github.com/google/uuid"
 	"github.com/jxskiss/base62"
 	"github.com/kjk/betterguid"
 	pwe "github.com/kuking/go-pwentropy"
 	"github.com/lithammer/shortuuid"
+	gonanoid "github.com/matoous/go-nanoid/v2"
+	"github.com/rs/xid"
 	guuid "github.com/satori/go.uuid"
 	"github.com/segmentio/ksuid"
 	"github.com/sony/sonyflake"
+	"github.com/spaolacci/murmur3"
 )
 
 func init() {
@@ -65,6 +65,13 @@ func main() {
 
 	for p != nil {
 		defineRandoms(p)
+		if strings.EqualFold(tag, "HELP") {
+			for _, t := range allTags {
+				fmt.Printf("%s\n", t)
+			}
+			return
+		}
+
 		p = prompt()
 	}
 }
@@ -339,6 +346,7 @@ var allTags []string
 func createPrinter() func(name string, f func(int) interface{}) {
 	tag = strings.ToUpper(tag)
 	if tag == "" || tag == "HELP" {
+		allTags = []string{}
 		return func(name string, f func(int) interface{}) {
 			allTags = append(allTags, name)
 		}
@@ -348,7 +356,7 @@ func createPrinter() func(name string, f func(int) interface{}) {
 
 	if tag == "ALL" {
 		okFn = func(string) bool { return true }
-	} else if tag != "" {
+	} else {
 		okFn = func(name string) bool { return strings.Contains(strings.ToUpper(name), tag) }
 	}
 
@@ -407,7 +415,7 @@ const usage = `
   -extra   bool     Print extra information.
   -len,l   int      Length.
   -cost,c  bool     Time costed.
-  -tag     string   Which type to generate, like uuid, art, id, email and etc. (empty for prompt, all or all)
+  -tag     string   Which type to generate, like uuid, art, id, email and etc. (empty for prompt, all or all, help for listing all tags)
 `
 
 func init() {
