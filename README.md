@@ -25,6 +25,73 @@ Usage of gg-rand:
   -tag     string   Which type to generate, like uuid, art, id, email and etc. (empty for prompt, all or all)
 ```
 
+Providing the following random data types:
+
+```sh
+$ gg-rand -tag help | awk '{i++;print i,$0}'
+1 blake3hash-zeebo
+2 blake3hash-luke
+3 xxhash
+4 md5-hash
+5 sha256-hash
+6 murmur3-32-hash
+7 murmur3-64-hash
+8 murmur3-128-hash
+9 imo-hash
+10 Base64Std
+11 Base64RawStd
+12 Base64RawURL
+13 Base64URL
+14 SillyName
+15 Email
+16 IP v4
+17 IP v6
+18 UserAgent
+19 Pwd
+20 Password
+21 Password Easy
+22 Numbers
+23 Letters
+24 JSON
+25 String
+26 Captcha Direct
+27 Captcha SimpleMathFormula
+28 sony/sonyflake
+29 max
+30 oklog/ulid
+31 chilts/sid
+32 kjk/betterguid
+33 segmentio/ksuid
+34 customized/ksuid base64
+35 lithammer/shortuuid
+36 google/uuid v4
+37 satori/go.uuid v4
+38 aidarkhanov/nanoid/v2
+39 matoous/go-nanoid/v2
+40 coolbed/mgo-oid Mongodb Object ID
+41 rs/xid Mongo Object ID
+42 BSON Object ID
+43 snowflake ID
+44 Random ID with fixed length 12
+45 customized snowflake ID with fixed length 12
+46 customized snowflake ID with uint32
+47 姓名
+48 性别
+49 地址
+50 手机
+51 身份证
+52 有效期
+53 发证机关
+54 邮箱
+55 银行卡
+56 日期
+57 Generative art
+58 Unsplash
+59 Image
+60 PBE Encrypt
+61 PBE Decrypt
+```
+
 ```sh
 $ gg-rand -t all -extra
 2022/02/18 12:51:28 blake3hash-zeebo: NHCQdMI36d87iJEQdlKAzhe-Hj-L-IhKRisBf_fNiPQ (len: 43), cost 81.024754ms
