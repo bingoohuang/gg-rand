@@ -8,6 +8,13 @@ generate random data like name, email, uuid, address, images and etc.
 usage:
 
 ```sh
+$ gg-rand -n3 -tag String -len 10
+BMgRILObDI
+dWLRNVCJiA
+gCVMHElXZA
+```
+
+```sh
 $ gg-rand -h    
 Usage of gg-rand:
   -dir,d   string   In which dir to generate random files. (default temp dir)
@@ -19,7 +26,7 @@ Usage of gg-rand:
 ```
 
 ```sh
-$ gg-rand -t all
+$ gg-rand -t all -extra
 2022/02/18 12:51:28 blake3hash-zeebo: NHCQdMI36d87iJEQdlKAzhe-Hj-L-IhKRisBf_fNiPQ (len: 43), cost 81.024754ms
 2022/02/18 12:51:28 blake3hash-luke: tHA_FGtStLU7OF9t_kAj0Rho4Xc8-7kh9faQxIRp-wU2K34EMWpgNm-_wYn3BStK07GqufPhZ31zLvsdYZXVVo2ZAzO7sEgEUU41VZHF4SvryAMDeNFxCKBTJFOY6RRrQGynH_5qAmA5flM7pDX5xGzUOrUqYviD-YjN8fxUk0IfmxN-b8KRw_ZZ7NlFIr7iAzD3IE8ekV92OfakOX0E1fbHDMb45dECta9kEFvsv8otiNGFAdkZsw-vZJ7TPCAI9q0nGscKpEPr84AzwLSjN285vPnbvOxAd1u-z3kYbAcell56jMjry4ogoYWvt4lwwKs43qLPVANdPfq9iaD_wQ (len: 342), cost 88.356272ms
 2022/02/18 12:51:28 xxhash: 9_wX8E03ujk (len: 11), cost 88.075279ms

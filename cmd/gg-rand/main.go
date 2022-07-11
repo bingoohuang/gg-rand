@@ -124,13 +124,13 @@ func defineRandoms(p func(name string, f func(int) interface{})) {
 	})
 	p("Password", func(int) interface{} { return pwe.PwGen(pwe.FormatComplex, pwe.Strength96) })
 	p("Password Easy", func(int) interface{} { return pwe.PwGen(pwe.FormatEasy, pwe.Strength96) })
-	p("Numbers", func(int) interface{} { return gofakeit.DigitN(60) })
-	p("Letters", func(int) interface{} { return gofakeit.LetterN(60) })
+	p("Numbers", func(int) interface{} { return gofakeit.DigitN(uint(argLen)) })
+	p("Letters", func(int) interface{} { return gofakeit.LetterN(uint(argLen)) })
 	jj.DefaultRandOptions.Pretty = false
 	p("JSON", func(int) interface{} { return string(jj.Rand()) })
-	p("String", func(int) interface{} { return str.RandStr(60) })
+	p("String", func(int) interface{} { return str.RandStr(argLen) })
 
-	p("Captcha DirectString", func(int) interface{} {
+	p("Captcha Direct", func(int) interface{} {
 		cp := c7a.NewCaptcha(150, 40, 5)
 		cp.SetMode(c7a.DirectString)
 		code, pImg := cp.OutPut()
