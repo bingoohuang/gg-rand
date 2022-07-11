@@ -28,7 +28,7 @@ Usage of gg-rand:
 Providing the following random data types:
 
 ```sh
-$ gg-rand -tag help | awk '{i++;print i,$0}'
+$ gg-rand -tag help | awk '{print ++i,$0}'
 1 blake3hash-zeebo
 2 blake3hash-luke
 3 xxhash
