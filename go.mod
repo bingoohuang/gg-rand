@@ -24,6 +24,7 @@ require (
 	github.com/lazybeaver/xorshift v0.0.0-20170702203709-ce511d4823dd
 	github.com/lithammer/shortuuid v3.0.0+incompatible
 	github.com/llgcode/draw2d v0.0.0-20210904075650-80aa0a2a901d
+	github.com/lucasb-eyer/go-colorful v1.2.0
 	github.com/manifoldco/promptui v0.9.0
 	github.com/matoous/go-nanoid/v2 v2.0.0
 	github.com/oklog/ulid v1.3.1

@@ -7,6 +7,7 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
+	"github.com/bingoohuang/gg-rand/pkg/colors"
 	"io"
 	"log"
 	"math"
@@ -238,6 +239,10 @@ func defineRandoms(p func(name string, f func(int) interface{})) {
 	arts(p)
 	p("Unsplash", unsplash.Random)
 	p("Image", img.RandomImage)
+
+	p("Random Colors", colors.RandomColors)
+	p("Random Palettes", colors.RandomPalettes)
+	p("Color Blend", colors.ColorBlend)
 
 	p("PBE Encrypt", pbeEncrptDealer)
 	p("PBE Decrypt", pbeDecrptDealer)
