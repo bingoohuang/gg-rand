@@ -10,6 +10,7 @@ require (
 	github.com/bingoohuang/gou v0.0.0-20210727012756-4873089fc9df
 	github.com/bingoohuang/jj v0.0.0-20220707083549-b1231258957c
 	github.com/brianvoe/gofakeit/v6 v6.17.0
+	github.com/btcsuite/btcutil v1.0.2
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/cespare/xxhash/v2 v2.1.2
 	github.com/chilts/sid v0.0.0-20190607042430-660e94789ec9

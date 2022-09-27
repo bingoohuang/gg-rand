@@ -7,7 +7,6 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
-	"github.com/bingoohuang/gg-rand/pkg/colors"
 	"io"
 	"log"
 	"math"
@@ -16,11 +15,14 @@ import (
 	"strings"
 	"time"
 
+	"github.com/bingoohuang/gg-rand/pkg/colors"
+
 	"github.com/bingoohuang/gg-rand/pkg/genpw"
 	"github.com/oklog/ulid"
 
 	"github.com/bingoohuang/gg/pkg/ss"
 	"github.com/bingoohuang/gou/pbe"
+	"github.com/btcsuite/btcutil/base58"
 	"github.com/manifoldco/promptui"
 
 	"github.com/bingoohuang/gg-rand/pkg/ksid"
@@ -192,8 +194,17 @@ func defineRandoms(p func(name string, f func(int) interface{})) {
 		c := ksid.New(ksid.WithValue(ksid.Max), ksid.WithTime(t)).String()
 		return []string{a, b, c, fmt.Sprintf("a<=b: %v", a <= b), fmt.Sprintf("b<=c: %v", b <= c)}
 	})
-	p("lithammer/shortuuid", func(int) interface{} { return []string{shortuuid.New(), "UUIDv4 or v5, 紧凑编码"} })
 	p("google/uuid v4", func(int) interface{} { return []string{uuid.New().String(), "128位随机"} })
+	p("lithammer/shortuuid v4 base57", func(int) interface{} {
+		return []string{shortuuid.New(), "concise, unambiguous, URL-safe UUID"}
+	})
+	p("lithammer/shortuuid v5 base57", func(int) interface{} {
+		return []string{shortuuid.NewWithNamespace("http://example.com"), "shortuuid UUID v5"}
+	})
+	p("lithammer/shortuuid v4 ", func(int) interface{} {
+		enc := base58Encoder{}
+		return []string{shortuuid.NewWithEncoder(enc), "shortuuid UUID base58"}
+	})
 	p("satori/go.uuid v4", func(int) interface{} {
 		return []string{guuid.NewV4().String(), "UUIDv4 from RFC 4112 for comparison"}
 	})
@@ -287,6 +298,16 @@ func pbeDecrptDealer(int) interface{} {
 	}
 
 	return []string{result, plainResult}
+}
+
+type base58Encoder struct{}
+
+func (enc base58Encoder) Encode(u uuid.UUID) string {
+	return base58.Encode(u[:])
+}
+
+func (enc base58Encoder) Decode(s string) (uuid.UUID, error) {
+	return uuid.FromBytes(base58.Decode(s))
 }
 
 func pbeEncrptDealer(int) interface{} {

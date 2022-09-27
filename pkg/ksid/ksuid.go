@@ -37,8 +37,9 @@ const (
 )
 
 // KSID are 20 bytes:
-//  00-03 byte: uint32 be UTC timestamp with custom epoch
-//  04-19 byte: random "payload"
+//
+//	00-03 byte: uint32 be UTC timestamp with custom epoch
+//	04-19 byte: random "payload"
 type KSID struct {
 	Data  [Size]byte
 	Error error

@@ -2,12 +2,13 @@ package colors
 
 import (
 	"fmt"
-	"github.com/bingoohuang/gg-rand/pkg/img"
-	"github.com/lucasb-eyer/go-colorful"
 	"image"
 	"image/draw"
 	"math/rand"
 	"time"
+
+	"github.com/bingoohuang/gg-rand/pkg/img"
+	"github.com/lucasb-eyer/go-colorful"
 )
 
 func ColorBlend(int) interface{} {
@@ -19,8 +20,8 @@ func ColorBlend(int) interface{} {
 	c2, _ := colorful.Hex("#242a42")
 
 	// Use these colors to get invalid RGB in the gradient.
-	//c1, _ := colorful.Hex("#EEEF61")
-	//c2, _ := colorful.Hex("#1E3140")
+	// c1, _ := colorful.Hex("#EEEF61")
+	// c2, _ := colorful.Hex("#1E3140")
 
 	for i := 0; i < blocks; i++ {
 		draw.Draw(rect, image.Rect(i*blockw, 0, (i+1)*blockw, 40),
@@ -35,11 +36,12 @@ func ColorBlend(int) interface{} {
 			&image.Uniform{C: c1.BlendHcl(c2, float64(i)/float64(blocks-1))}, image.Point{}, draw.Src)
 
 		// This can be used to "fix" invalid colors in the gradient.
-		//draw.Draw(img, image.Rect(i*blockw,160,(i+1)*blockw,200), &image.Uniform{c1.BlendHcl(c2, float64(i)/float64(blocks-1)).Clamped()}, image.Point{}, draw.Src)
+		// draw.Draw(img, image.Rect(i*blockw,160,(i+1)*blockw,200), &image.Uniform{c1.BlendHcl(c2, float64(i)/float64(blocks-1)).Clamped()}, image.Point{}, draw.Src)
 	}
 
 	return img.ToPng(rect, false)
 }
+
 func RandomPalettes(int) interface{} {
 	colors := 10
 	blockw := 40
