@@ -227,3 +227,4 @@ $ gg-rand -t id
 
 1. [Generating good unique ids in Go](https://blog.kowalczyk.info/article/JyRZ/generating-good-unique-ids-in-go.html)
 2. [A brief history of the UUID](https://segment.com/blog/a-brief-history-of-the-uuid/)
+3. [pgregory.net/rand](https://github.com/flyingmutant/rand) Fast, high quality alternative to math/rand and golang.org/x/exp/rand, [SFC64 是 Chris Doty-Humphrey 的小型快速混沌 PRNG 的 256 位实现](https://runebook.dev/zh-CN/docs/numpy/reference/random/bit_generators/sfc64)
