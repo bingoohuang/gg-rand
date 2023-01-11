@@ -12,7 +12,6 @@ import (
 	"path/filepath"
 
 	"github.com/bingoohuang/gg/pkg/iox"
-
 	"github.com/bingoohuang/gg/pkg/man"
 	"github.com/bingoohuang/gg/pkg/randx"
 	"github.com/bingoohuang/gg/pkg/uid"

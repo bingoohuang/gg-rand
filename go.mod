@@ -30,7 +30,7 @@ require (
 	github.com/matoous/go-nanoid/v2 v2.0.0
 	github.com/oklog/ulid v1.3.1
 	github.com/rs/xid v1.4.0
-	github.com/satori/go.uuid v1.2.0
+	github.com/satori/go.uuid v1.2.1-0.20181028125025-b2ce2384e17b
 	github.com/segmentio/ksuid v1.0.4
 	github.com/sony/sonyflake v1.0.0
 	github.com/spaolacci/murmur3 v1.1.0
@@ -53,7 +53,6 @@ require (
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/go-openapi/errors v0.19.2 // indirect
 	github.com/go-openapi/strfmt v0.19.3 // indirect
-	github.com/go-stack/stack v1.8.0 // indirect
 	github.com/hashicorp/errwrap v1.0.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
@@ -83,13 +82,13 @@ require (
 	github.com/subosito/gotenv v1.2.0 // indirect
 	github.com/thoas/go-funk v0.9.0 // indirect
 	github.com/twmb/murmur3 v1.1.5 // indirect
-	go.mongodb.org/mongo-driver v1.0.3 // indirect
-	golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2 // indirect
+	go.mongodb.org/mongo-driver v1.11.1 // indirect
+	golang.org/x/crypto v0.5.0 // indirect
 	golang.org/x/image v0.0.0-20210220032944-ac19c3e999fb // indirect
-	golang.org/x/sys v0.0.0-20210630005230-0f9fa26af87c // indirect
-	golang.org/x/term v0.0.0-20201126162022-7de9c90e9dd1 // indirect
-	golang.org/x/text v0.3.6 // indirect
+	golang.org/x/sys v0.4.0 // indirect
+	golang.org/x/term v0.4.0 // indirect
+	golang.org/x/text v0.6.0 // indirect
 	gopkg.in/ini.v1 v1.62.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	gopkg.in/yaml.v3 v3.0.0 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

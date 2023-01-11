@@ -9,9 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/assert"
-
 	"github.com/RoaringBitmap/roaring/roaring64"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestCid12(t *testing.T) {

@@ -6,12 +6,10 @@ import (
 	"io"
 	"os"
 
-	"github.com/zeebo/blake3"
-
-	blake3Luke "lukechampine.com/blake3"
-
 	"github.com/cespare/xxhash/v2"
 	"github.com/kalafut/imohash"
+	"github.com/zeebo/blake3"
+	blake3Luke "lukechampine.com/blake3"
 )
 
 // HashFile returns the  64-bit xxHash algorithm, XXH64 of a file.

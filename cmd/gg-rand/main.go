@@ -15,34 +15,27 @@ import (
 	"strings"
 	"time"
 
-	"github.com/bingoohuang/gg-rand/pkg/colors"
-
-	"github.com/bingoohuang/gg-rand/pkg/genpw"
-	"github.com/oklog/ulid"
-
-	"github.com/bingoohuang/gg/pkg/ss"
-	"github.com/bingoohuang/gou/pbe"
-	"github.com/btcsuite/btcutil/base58"
-	"github.com/manifoldco/promptui"
-
-	"github.com/bingoohuang/gg-rand/pkg/ksid"
-
-	"github.com/bingoohuang/gg-rand/pkg/snow2"
-
 	rd "github.com/Pallinder/go-randomdata"
 	nanoid "github.com/aidarkhanov/nanoid/v2"
 	"github.com/bingoohuang/gg-rand/pkg/art"
 	"github.com/bingoohuang/gg-rand/pkg/c7a"
 	"github.com/bingoohuang/gg-rand/pkg/cid"
+	"github.com/bingoohuang/gg-rand/pkg/colors"
+	"github.com/bingoohuang/gg-rand/pkg/genpw"
 	"github.com/bingoohuang/gg-rand/pkg/gist"
 	"github.com/bingoohuang/gg-rand/pkg/hash"
 	"github.com/bingoohuang/gg-rand/pkg/img"
+	"github.com/bingoohuang/gg-rand/pkg/ksid"
+	"github.com/bingoohuang/gg-rand/pkg/snow2"
 	"github.com/bingoohuang/gg-rand/pkg/str"
 	"github.com/bingoohuang/gg-rand/pkg/unsplash"
 	"github.com/bingoohuang/gg/pkg/chinaid"
 	"github.com/bingoohuang/gg/pkg/fla9"
+	"github.com/bingoohuang/gg/pkg/ss"
+	"github.com/bingoohuang/gou/pbe"
 	"github.com/bingoohuang/jj"
 	gofakeit "github.com/brianvoe/gofakeit/v6"
+	"github.com/btcsuite/btcutil/base58"
 	"github.com/bwmarrin/snowflake"
 	"github.com/chilts/sid"
 	oid "github.com/coolbed/mgo-oid"
@@ -51,7 +44,9 @@ import (
 	"github.com/kjk/betterguid"
 	pwe "github.com/kuking/go-pwentropy"
 	"github.com/lithammer/shortuuid"
+	"github.com/manifoldco/promptui"
 	gonanoid "github.com/matoous/go-nanoid/v2"
+	"github.com/oklog/ulid"
 	"github.com/rs/xid"
 	guuid "github.com/satori/go.uuid"
 	"github.com/segmentio/ksuid"
@@ -206,7 +201,12 @@ func defineRandoms(p func(name string, f func(int) interface{})) {
 		return []string{shortuuid.NewWithEncoder(enc), "shortuuid UUID base58"}
 	})
 	p("satori/go.uuid v4", func(int) interface{} {
-		return []string{guuid.NewV4().String(), "UUIDv4 from RFC 4112 for comparison"}
+		v4, err := guuid.NewV4()
+		if err != nil {
+			panic(err)
+		}
+
+		return []string{v4.String(), "UUIDv4 from RFC 4112 for comparison"}
 	})
 	p("aidarkhanov/nanoid/v2", func(int) interface{} { return PickStr(nanoid.New()) })  // "i25_rX9zwDdDn7Sg-ZoaH"
 	p("matoous/go-nanoid/v2", func(int) interface{} { return PickStr(gonanoid.New()) }) // "i25_rX9zwDdDn7Sg-ZoaH"
@@ -256,48 +256,7 @@ func defineRandoms(p func(name string, f func(int) interface{})) {
 	p("Color Blend", colors.ColorBlend)
 
 	p("PBE Encrypt", pbeEncrptDealer)
-	p("PBE Decrypt", pbeDecrptDealer)
-}
-
-func pbeDecrptDealer(int) interface{} {
-	if tag == "ALL" {
-		return nil
-	}
-
-	validate := func(input string) error {
-		if len(input) < 6 {
-			return errors.New("password must have more than 6 characters")
-		}
-		return nil
-	}
-
-	plain := promptui.Prompt{
-		Label:    "PBE format",
-		Validate: validate,
-		Default:  pwe.PwGen(pwe.FormatComplex, pwe.Strength96),
-	}
-
-	plainResult, err := plain.Run()
-	if err != nil {
-		return err.Error()
-	}
-
-	passwd := promptui.Prompt{
-		Label:    "Password",
-		Validate: validate,
-		Mask:     '*',
-	}
-	passwdResult, err := passwd.Run()
-	if err != nil {
-		return err.Error()
-	}
-
-	result, err := pbe.Decrypt(plainResult, passwdResult, 19)
-	if err != nil {
-		return err.Error()
-	}
-
-	return []string{result, plainResult}
+	p("EBP Decrypt", pbeDecrptDealer)
 }
 
 type base58Encoder struct{}
@@ -348,7 +307,48 @@ func pbeEncrptDealer(int) interface{} {
 		return err.Error()
 	}
 
-	return []string{result, plainResult}
+	return result
+}
+
+func pbeDecrptDealer(int) interface{} {
+	if tag == "ALL" {
+		return nil
+	}
+
+	validate := func(input string) error {
+		if len(input) < 6 {
+			return errors.New("password must have more than 6 characters")
+		}
+		return nil
+	}
+
+	plain := promptui.Prompt{
+		Label:    "PBE Encrypted TEXT",
+		Validate: validate,
+		Default:  pwe.PwGen(pwe.FormatComplex, pwe.Strength96),
+	}
+
+	plainResult, err := plain.Run()
+	if err != nil {
+		return err.Error()
+	}
+
+	passwd := promptui.Prompt{
+		Label:    "Password",
+		Validate: validate,
+		Mask:     '*',
+	}
+	passwdResult, err := passwd.Run()
+	if err != nil {
+		return err.Error()
+	}
+
+	result, err := pbe.Decrypt(plainResult, passwdResult, 19)
+	if err != nil {
+		return err.Error()
+	}
+
+	return result
 }
 
 func randToken() []byte {
