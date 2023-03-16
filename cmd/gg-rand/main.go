@@ -1,7 +1,7 @@
 package main
 
 import (
-	crand "crypto/rand"
+	"crypto/rand"
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/hex"
@@ -10,13 +10,12 @@ import (
 	"io"
 	"log"
 	"math"
-	"math/rand"
 	"os"
 	"strings"
 	"time"
 
 	rd "github.com/Pallinder/go-randomdata"
-	nanoid "github.com/aidarkhanov/nanoid/v2"
+	"github.com/aidarkhanov/nanoid/v2"
 	"github.com/bingoohuang/gg-rand/pkg/art"
 	"github.com/bingoohuang/gg-rand/pkg/c7a"
 	"github.com/bingoohuang/gg-rand/pkg/cid"
@@ -34,7 +33,7 @@ import (
 	"github.com/bingoohuang/gg/pkg/ss"
 	"github.com/bingoohuang/gou/pbe"
 	"github.com/bingoohuang/jj"
-	gofakeit "github.com/brianvoe/gofakeit/v6"
+	"github.com/brianvoe/gofakeit/v6"
 	"github.com/btcsuite/btcutil/base58"
 	"github.com/bwmarrin/snowflake"
 	"github.com/chilts/sid"
@@ -107,7 +106,6 @@ func defineRandoms(p func(name string, f func(int) interface{})) {
 	p("murmur3-128-hash", createFileFunc(func(f string) ([]byte, error) { return hash.HashFile(f, murmur3.New128()) }))
 	p("imo-hash", createFileFunc(hash.IMOHashFile))
 
-	rand.Seed(time.Now().UnixNano())
 	p("Base64Std", func(int) interface{} { return base64.StdEncoding.EncodeToString(randToken()) })
 	p("Base64RawStd", func(int) interface{} { return base64.RawStdEncoding.EncodeToString(randToken()) })
 	p("Base64RawURL", func(int) interface{} { return base64.RawURLEncoding.EncodeToString(randToken()) })
@@ -173,7 +171,7 @@ func defineRandoms(p func(name string, f func(int) interface{})) {
 		}
 	})
 	p("oklog/ulid", func(int) interface{} {
-		v := ulid.MustNew(ulid.Now(), crand.Reader)
+		v := ulid.MustNew(ulid.Now(), rand.Reader)
 		return []string{v.String(), "base32固定26位，48位时间(ms)+80位随机"}
 	})
 	p("chilts/sid", func(int) interface{} { return []string{sid.IdBase64(), "32位时间(ns)+64位随机"} })
@@ -353,7 +351,7 @@ func pbeDecrptDealer(int) interface{} {
 
 func randToken() []byte {
 	token := make([]byte, argLen)
-	n, err := crand.Read(token)
+	n, err := rand.Read(token)
 	if err != nil {
 		panic(err)
 	}
@@ -396,8 +394,14 @@ func printRandom(okFn func(string) bool) func(name string, f func(int) interface
 			for i := 0; i < num; i++ {
 				start := time.Now()
 				v := f(i)
-				if !extra {
-					fmt.Printf("%v\n", v)
+				if verbose == 0 {
+					if v2, ok := v.([]string); ok && len(v2) > 0 {
+						fmt.Printf("%s\n", v2[0])
+					} else if v1, ok := v.(string); ok {
+						fmt.Printf("%s\n", v1)
+					} else {
+						fmt.Printf("%v\n", v)
+					}
 					continue
 				}
 
@@ -409,7 +413,8 @@ func printRandom(okFn func(string) bool) func(name string, f func(int) interface
 					log.Printf("%s: %v , cost %s", name, v, time.Since(start))
 				}
 			}
-			if cost && num > 1 && extra {
+
+			if verbose > 0 {
 				log.Printf("Completed, cost %s", time.Since(start0))
 			}
 		}
@@ -425,13 +430,12 @@ func arts(p1 func(name string, f func(int) interface{})) {
 }
 
 var (
-	tag    string
-	input  string
-	num    int
-	argLen int
-	dir    string
-	cost   bool
-	extra  bool
+	tag     string
+	input   string
+	num     int
+	verbose int
+	argLen  int
+	dir     string
 )
 
 const usage = `
@@ -446,14 +450,13 @@ const usage = `
 
 func init() {
 	fla9.Usage = func() {
-		fmt.Fprintf(os.Stderr, "Usage of %s:%s", os.Args[0], usage)
+		_, _ = fmt.Fprintf(os.Stderr, "Usage of %s:%s", os.Args[0], usage)
 	}
 	fla9.StringVar(&dir, "dir,d", "", "")
-	fla9.BoolVar(&cost, "cost,c", false, "")
-	fla9.BoolVar(&extra, "extra", false, "")
 	fla9.StringVar(&tag, "tag,t", "", "")
 	fla9.StringVar(&input, "input,i", "", "")
 	fla9.IntVar(&num, "n", 1, "")
+	fla9.CountVar(&verbose, "verbose,v", 0, "")
 	fla9.IntVar(&argLen, "len,l", 100, "")
 	fla9.Parse()
 
@@ -510,8 +513,8 @@ func createFileFunc(f func(string) ([]byte, error)) func(int) interface{} {
 				log.Printf("failed to create temporary file: %v", err)
 				return nil
 			} else {
-				_, _ = io.CopyN(temp, crand.Reader, 10*1024*1024)
-				temp.Close()
+				_, _ = io.CopyN(temp, rand.Reader, 10*1024*1024)
+				_ = temp.Close()
 				file = temp.Name()
 			}
 		} else if stat.IsDir() {
